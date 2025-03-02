@@ -108,8 +108,12 @@ if __name__ == "__main__":
     attrs = triton.backends.compiler.AttrsDescriptor.from_hints(hints)
     for p, v in attrs.get_constants().items():
         constants.update({kernel.arg_names[p[0]]: v})
+    
+    # AST入口
     src = triton.compiler.ASTSource(fn=kernel, constexprs=constants, signature=signature, attrs=attrs)
+    import ipdb; ipdb.set_trace()
     opts = {"num_warps": args.num_warps, "num_stages": args.num_stages}
+    #
     ccinfo = triton.compile(src, options=opts)
     if ccinfo.metadata.global_scratch_size > 0:
         raise RuntimeError("AOT compiling kernels with global scratch requirements is not yet implemented")

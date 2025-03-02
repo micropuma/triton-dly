@@ -212,7 +212,7 @@ def filter_traceback(e: BaseException):
         frames[-1].tb_next = None
         e.__traceback__ = frames[0]
 
-
+# triton 的compile入口
 def compile(src, target=None, options=None):
     if target is None:
         target = driver.active.get_current_target()

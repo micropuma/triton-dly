@@ -45,8 +45,17 @@ print(compiled_kernel.asm.keys())
 # dict_keys(['llir', 'ttgir', 'ttir', 'ptx', 'cubin'])
 
 # print ir beneath
+print("===================== ttir =====================")
 print(compiled_kernel.asm["ttir"])    # triton ir
+print("===================== ttgir =====================")
 print(compiled_kernel.asm["ttgir"])   # triton gpu ir
+print("===================== llir =====================")
 print(compiled_kernel.asm["llir"])    # llvm ir
+print("===================== ptx =====================")
 print(compiled_kernel.asm["ptx"])     # ptx ir
+with open("./tmp/cubin_data.o", "wb") as f:
+    f.write(compiled_kernel.asm["cubin"])
+print("===================== cubin =====================")
+print(get_sass(compiled_kernel.asm["cubin"]))
+
 
