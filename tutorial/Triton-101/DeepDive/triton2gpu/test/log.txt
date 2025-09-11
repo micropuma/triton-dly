@@ -1,0 +1,127 @@
+
+//===-------------------------------------------===//
+Legalizing operation : 'builtin.module'(0x5c1c18060830) {
+  * Fold {
+  } -> FAILURE : unable to fold
+} -> FAILURE : no matched legalization pattern
+//===-------------------------------------------===//
+
+//===-------------------------------------------===//
+Legalizing operation : 'tt.func'(0x5c1c1805f310) {
+} -> SUCCESS : operation marked legal by the target
+//===-------------------------------------------===//
+
+//===-------------------------------------------===//
+Legalizing operation : 'arith.constant'(0x5c1c18033bf0) {
+  %0 = "arith.constant"() <{value = dense<1.000000e+00> : tensor<128x32xf16>}> : () -> tensor<128x32xf16>
+
+  * Fold {
+  } -> FAILURE : unable to fold
+
+  * Pattern : 'arith.constant -> ()' {
+    ** Insert  : 'arith.constant'(0x5c1c1806d3d0)
+    ** Replace : 'arith.constant'(0x5c1c18033bf0)
+
+    //===-------------------------------------------===//
+    Legalizing operation : 'arith.constant'(0x5c1c1806d3d0) {
+      %0 = "arith.constant"() <{value = dense<1.000000e+00> : tensor<128x32xf16, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [2, 1], order = [1, 0]}>>}> : () -> tensor<128x32xf16, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [2, 1], order = [1, 0]}>>
+
+    } -> SUCCESS : operation marked legal by the target
+    //===-------------------------------------------===//
+  } -> SUCCESS : pattern applied successfully
+} -> SUCCESS
+//===-------------------------------------------===//
+
+//===-------------------------------------------===//
+Legalizing operation : 'arith.constant'(0x5c1c1805e3c0) {
+  %2 = "arith.constant"() <{value = dense<2.000000e+00> : tensor<32x128xf16>}> : () -> tensor<32x128xf16>
+
+  * Fold {
+  } -> FAILURE : unable to fold
+
+  * Pattern : 'arith.constant -> ()' {
+    ** Insert  : 'arith.constant'(0x5c1c1806cd50)
+    ** Replace : 'arith.constant'(0x5c1c1805e3c0)
+
+    //===-------------------------------------------===//
+    Legalizing operation : 'arith.constant'(0x5c1c1806cd50) {
+      %2 = "arith.constant"() <{value = dense<2.000000e+00> : tensor<32x128xf16, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 2], order = [1, 0]}>>}> : () -> tensor<32x128xf16, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 2], order = [1, 0]}>>
+
+    } -> SUCCESS : operation marked legal by the target
+    //===-------------------------------------------===//
+  } -> SUCCESS : pattern applied successfully
+} -> SUCCESS
+//===-------------------------------------------===//
+
+//===-------------------------------------------===//
+Legalizing operation : 'arith.constant'(0x5c1c1805e930) {
+  %4 = "arith.constant"() <{value = dense<3.000000e+00> : tensor<128x128xf32>}> : () -> tensor<128x128xf32>
+
+  * Fold {
+  } -> FAILURE : unable to fold
+
+  * Pattern : 'arith.constant -> ()' {
+    ** Insert  : 'arith.constant'(0x5c1c1806ce90)
+    ** Replace : 'arith.constant'(0x5c1c1805e930)
+
+    //===-------------------------------------------===//
+    Legalizing operation : 'arith.constant'(0x5c1c1806ce90) {
+      %4 = "arith.constant"() <{value = dense<3.000000e+00> : tensor<128x128xf32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 2], order = [1, 0]}>>}> : () -> tensor<128x128xf32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 2], order = [1, 0]}>>
+
+    } -> SUCCESS : operation marked legal by the target
+    //===-------------------------------------------===//
+  } -> SUCCESS : pattern applied successfully
+} -> SUCCESS
+//===-------------------------------------------===//
+
+//===-------------------------------------------===//
+Legalizing operation : 'tt.dot'(0x5c1c18023480) {
+  %6 = "tt.dot"(%1, %3, %5) <{inputPrecision = 2 : i32, maxNumImpreciseAcc = 0 : i32}> : (tensor<128x32xf16>, tensor<32x128xf16>, tensor<128x128xf32>) -> tensor<128x128xf32>
+
+  * Fold {
+  } -> FAILURE : unable to fold
+
+  * Pattern : 'tt.dot -> ()' {
+    ** Insert  : 'ttg.convert_layout'(0x5c1c18061e10)
+    ** Insert  : 'ttg.convert_layout'(0x5c1c18070ee0)
+    ** Insert  : 'ttg.convert_layout'(0x5c1c18070f70)
+    ** Insert  : 'tt.dot'(0x5c1c1805d560)
+    ** Replace : 'tt.dot'(0x5c1c18023480)
+
+    //===-------------------------------------------===//
+    Legalizing operation : 'ttg.convert_layout'(0x5c1c18061e10) {
+      %6 = "ttg.convert_layout"(%0) : (tensor<128x32xf16, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [2, 1], order = [1, 0]}>>) -> tensor<128x32xf16, #ttg.dot_op<{opIdx = 0, parent = #ttg.blocked<{sizePerThread = [4, 4], threadsPerWarp = [1, 32], warpsPerCTA = [2, 1], order = [1, 0]}>}>>
+
+    } -> SUCCESS : operation marked legal by the target
+    //===-------------------------------------------===//
+
+    //===-------------------------------------------===//
+    Legalizing operation : 'ttg.convert_layout'(0x5c1c18070ee0) {
+      %7 = "ttg.convert_layout"(%2) : (tensor<32x128xf16, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 2], order = [1, 0]}>>) -> tensor<32x128xf16, #ttg.dot_op<{opIdx = 1, parent = #ttg.blocked<{sizePerThread = [4, 4], threadsPerWarp = [1, 32], warpsPerCTA = [2, 1], order = [1, 0]}>}>>
+
+    } -> SUCCESS : operation marked legal by the target
+    //===-------------------------------------------===//
+
+    //===-------------------------------------------===//
+    Legalizing operation : 'ttg.convert_layout'(0x5c1c18070f70) {
+      %8 = "ttg.convert_layout"(%4) : (tensor<128x128xf32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 2], order = [1, 0]}>>) -> tensor<128x128xf32, #ttg.blocked<{sizePerThread = [4, 4], threadsPerWarp = [1, 32], warpsPerCTA = [2, 1], order = [1, 0]}>>
+
+    } -> SUCCESS : operation marked legal by the target
+    //===-------------------------------------------===//
+
+    //===-------------------------------------------===//
+    Legalizing operation : 'tt.dot'(0x5c1c1805d560) {
+      %9 = "tt.dot"(%6, %7, %8) <{inputPrecision = 2 : i32, maxNumImpreciseAcc = 0 : i32}> : (tensor<128x32xf16, #ttg.dot_op<{opIdx = 0, parent = #ttg.blocked<{sizePerThread = [4, 4], threadsPerWarp = [1, 32], warpsPerCTA = [2, 1], order = [1, 0]}>}>>, tensor<32x128xf16, #ttg.dot_op<{opIdx = 1, parent = #ttg.blocked<{sizePerThread = [4, 4], threadsPerWarp = [1, 32], warpsPerCTA = [2, 1], order = [1, 0]}>}>>, tensor<128x128xf32, #ttg.blocked<{sizePerThread = [4, 4], threadsPerWarp = [1, 32], warpsPerCTA = [2, 1], order = [1, 0]}>>) -> tensor<128x128xf32, #ttg.blocked<{sizePerThread = [4, 4], threadsPerWarp = [1, 32], warpsPerCTA = [2, 1], order = [1, 0]}>>
+
+    } -> SUCCESS : operation marked legal by the target
+    //===-------------------------------------------===//
+  } -> SUCCESS : pattern applied successfully
+} -> SUCCESS
+//===-------------------------------------------===//
+
+//===-------------------------------------------===//
+Legalizing operation : 'tt.return'(0x5c1c18032860) {
+  "tt.return"() : () -> ()
+
+} -> SUCCESS : operation marked legal by the target
+//===-------------------------------------------===//

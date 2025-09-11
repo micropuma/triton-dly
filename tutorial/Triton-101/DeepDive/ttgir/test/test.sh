@@ -1,0 +1,1 @@
+triton-opt ./dot-opt.mlir -split-input-file -tritongpu-optimize-dot-operands -canonicalize
