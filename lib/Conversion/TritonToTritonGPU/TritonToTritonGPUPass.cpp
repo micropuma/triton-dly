@@ -202,6 +202,7 @@ private:
   }
 };
 
+// tt.dot操作，需要修复result和operands的layout
 struct TritonDotPattern : public OpConversionPattern<triton::DotOp> {
   using OpConversionPattern::OpConversionPattern;
 
@@ -217,6 +218,8 @@ struct TritonDotPattern : public OpConversionPattern<triton::DotOp> {
     auto rank = origShape.size();
     SmallVector<unsigned> retSizePerThread(rank, 1);
     auto numElements = product<int64_t>(origShape);
+
+    // 朴素的线程划分方法，根据总元素数量和线程数量来决定每个线程处理的元素数量
     if (numElements / (numWarps * threadsPerWarp) >= 4) {
       retSizePerThread[rank - 1] = 2;
       retSizePerThread[rank - 2] = 2;
@@ -238,6 +241,7 @@ struct TritonDotPattern : public OpConversionPattern<triton::DotOp> {
         threadsPerWarp, numCTAs);
     RankedTensorType retType = origType.cloneWithEncoding(dEncoding);
     // a & b must be of smem layout
+    // TritonTypeconverter 在adaptor中已经把operand的layout转换成了smem layout
     auto aType = cast<RankedTensorType>(adaptor.getA().getType());
     auto bType = cast<RankedTensorType>(adaptor.getB().getType());
     Type aEltType = aType.getElementType();
@@ -253,6 +257,8 @@ struct TritonDotPattern : public OpConversionPattern<triton::DotOp> {
       Attribute encoding = triton::gpu::DotOperandEncodingAttr::get(
           getContext(), 0, dEncoding, aEltType);
       auto dstType = aType.cloneWithEncoding(encoding);
+
+      // %0 = ttg.convert_layout %cst : tensor<128x32xf16, #blocked> -> tensor<128x32xf16, #ttg.dot_op<{opIdx = 0, parent = #blocked2}>>
       a = rewriter.create<triton::gpu::ConvertLayoutOp>(a.getLoc(), dstType, a);
     }
     if (!mlir::isa<triton::gpu::DotOperandEncodingAttr>(bEncoding)) {

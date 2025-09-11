@@ -1,0 +1,1 @@
+triton-opt ./test.mlir -convert-triton-gpu-to-llvm -canonicalize -cse -symbol-dce -canonicalize
