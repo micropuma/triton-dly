@@ -168,7 +168,70 @@ In conclusion, the main difference after ttir->ttgir conversion is the layout at
 
 
 
-### TTGIR
+### TTGIR  
+Readers can refer to [make_ttgir](https://github.com/triton-lang/triton/blob/main/third_party/nvidia/backend/compiler.py#L245-L323) to view pass pipelines in TTGIR dialect.   
+
+In this part, triton do all critical GPU-specific optimizations, with the help fo Axis analysis. Let's first dive into the design of Axis analysis, combined with previous layout information, which clearly shows how tensors are stored and distribute within threads.   
+
+#### Axis Analysis
+Axis Analysis is like other standard analysis pass, gather detailed information to help guide further code transformation. This part highly refer to [OpenAI Triton: Dive into Axis and Coalesce](https://www.zhihu.com/search?type=content&q=triton%20axis%20analysis) blog. Three new concepts are introduced in this phase:  
+* Divisibility
+* Contiguity
+* Constancy  
+
+`Divisibility`
+```shell
+// For example, the 2D array
+//
+//   [[10, 11, 12, 13, 18, 19, 20, 21],
+//    [20, 21, 22, 23, 28, 29, 30, 31]]
+//
+// has contiguity [1, 4], and
+//
+//   [[12, 16, 20, 24],
+//    [13, 17, 21, 25],
+//    [14, 18, 22, 26],
+//    [15, 19, 23, 27],
+//    [18, 22, 26, 30],
+//    [19, 23, 27, 31]]
+//
+// has contiguity [2, 1].
+```
+
+`Contiguity`  
+```shell
+// For example,
+//
+//   [[10, 11, 12, 13, 18, 19, 20, 21],
+//    [20, 21, 22, 23, 28, 29, 30, 31]]
+//
+//  has divisibility [1, 2], and
+//
+//    [[12, 16, 20, 24],
+//     [13, 17, 21, 25],
+//     [14, 18, 22, 26],
+//     [15, 19, 23, 27]]
+//
+// has divisibility [4, 1].
+//
+// On the other hand,
+//
+//   [0, 1, 2, 0, 4, 5, 6, 7]
+//
+// has divisibility 1 because its contiguity is 1.
+```
+
+`Constancy`
+```shell
+// For example
+//
+//   [[8, 8, 8, 8, 12, 12, 12, 12],
+//    [16, 16, 16, 16, 20, 20, 20, 20]]
+//
+// has constancy [1, 4].
+```
+
+#### Coalesce Pass
 
 ## Chapter5: Python Binding Layer
 refer to [python/src/passes.cpp](https://github.com/triton-lang/triton/blob/main/python/src/passes.cc#L20-L128) and [python/src/passes.h](https://github.com/triton-lang/triton/blob/main/python/src/passes.h#L1-L43)
