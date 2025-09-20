@@ -1,0 +1,76 @@
+add.ttgir:4:18: remark: %c1024_i32 = arith.constant 1024 : i32 => contiguity = [1], divisibility = [1024], constancy = [1], constant_value = 1024
+    %c1024_i32 = arith.constant 1024 : i32
+                 ^
+add.ttgir:5:10: remark: %0 = tt.get_program_id x : i32 => contiguity = [1], divisibility = [1], constancy = [1], constant_value = <none>
+    %0 = tt.get_program_id x : i32
+         ^
+add.ttgir:6:10: remark: %1 = arith.muli %0, %c1024_i32 : i32 => contiguity = [1], divisibility = [1024], constancy = [1], constant_value = <none>
+    %1 = arith.muli %0, %c1024_i32 : i32
+         ^
+add.ttgir:7:10: remark: %2 = tt.make_range {end = 1024 : i32, start = 0 : i32} : tensor<1024xi32, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1024], divisibility = [1073741824], constancy = [1], constant_value = <none>
+    %2 = tt.make_range {end = 1024 : i32, start = 0 : i32} : tensor<1024xi32, #blocked>
+         ^
+add.ttgir:8:10: remark: %3 = tt.splat %1 : i32 -> tensor<1024xi32, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1], divisibility = [1024], constancy = [1024], constant_value = <none>
+    %3 = tt.splat %1 : i32 -> tensor<1024xi32, #blocked>
+         ^
+add.ttgir:9:10: remark: %4 = arith.addi %3, %2 : tensor<1024xi32, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1024], divisibility = [1024], constancy = [1], constant_value = <none>
+    %4 = arith.addi %3, %2 : tensor<1024xi32, #blocked>
+         ^
+add.ttgir:10:10: remark: %5 = tt.splat %arg3 : i32 -> tensor<1024xi32, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1], divisibility = [16], constancy = [1024], constant_value = <none>
+    %5 = tt.splat %arg3 : i32 -> tensor<1024xi32, #blocked>
+         ^
+add.ttgir:11:10: remark: %6 = arith.cmpi slt, %4, %5 : tensor<1024xi32, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1], divisibility = [1], constancy = [16], constant_value = <none>
+    %6 = arith.cmpi slt, %4, %5 : tensor<1024xi32, #blocked>
+         ^
+add.ttgir:12:10: remark: %7 = tt.splat %arg0 : !tt.ptr<f32> -> tensor<1024x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1], divisibility = [16], constancy = [1024], constant_value = <none>
+    %7 = tt.splat %arg0 : !tt.ptr<f32> -> tensor<1024x!tt.ptr<f32>, #blocked>
+         ^
+add.ttgir:13:10: remark: %8 = tt.addptr %7, %4 : tensor<1024x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>>, tensor<1024xi32, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1024], divisibility = [16], constancy = [1], constant_value = <none>
+    %8 = tt.addptr %7, %4 : tensor<1024x!tt.ptr<f32>, #blocked>, tensor<1024xi32, #blocked>
+         ^
+add.ttgir:14:10: remark: %9 = tt.load %8, %6 : tensor<1024x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1], divisibility = [1], constancy = [1], constant_value = <none>
+    %9 = tt.load %8, %6 : tensor<1024x!tt.ptr<f32>, #blocked>
+         ^
+add.ttgir:15:11: remark: %10 = tt.splat %arg1 : !tt.ptr<f32> -> tensor<1024x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1], divisibility = [16], constancy = [1024], constant_value = <none>
+    %10 = tt.splat %arg1 : !tt.ptr<f32> -> tensor<1024x!tt.ptr<f32>, #blocked>
+          ^
+add.ttgir:16:11: remark: %11 = tt.addptr %10, %4 : tensor<1024x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>>, tensor<1024xi32, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1024], divisibility = [16], constancy = [1], constant_value = <none>
+    %11 = tt.addptr %10, %4 : tensor<1024x!tt.ptr<f32>, #blocked>, tensor<1024xi32, #blocked>
+          ^
+add.ttgir:17:11: remark: %12 = tt.load %11, %6 : tensor<1024x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1], divisibility = [1], constancy = [1], constant_value = <none>
+    %12 = tt.load %11, %6 : tensor<1024x!tt.ptr<f32>, #blocked>
+          ^
+add.ttgir:18:11: remark: %13 = arith.addf %9, %12 : tensor<1024xf32, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1], divisibility = [1], constancy = [1], constant_value = <none>
+    %13 = arith.addf %9, %12 : tensor<1024xf32, #blocked>
+          ^
+add.ttgir:19:11: remark: %14 = tt.splat %arg2 : !tt.ptr<f32> -> tensor<1024x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1], divisibility = [16], constancy = [1024], constant_value = <none>
+    %14 = tt.splat %arg2 : !tt.ptr<f32> -> tensor<1024x!tt.ptr<f32>, #blocked>
+          ^
+add.ttgir:20:11: remark: %15 = tt.addptr %14, %4 : tensor<1024x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>>, tensor<1024xi32, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1024], divisibility = [16], constancy = [1], constant_value = <none>
+    %15 = tt.addptr %14, %4 : tensor<1024x!tt.ptr<f32>, #blocked>, tensor<1024xi32, #blocked>
+          ^
+#blocked = #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>
+module attributes {"ttg.num-ctas" = 1 : i32, "ttg.num-warps" = 4 : i32, ttg.target = "cuda:86", "ttg.threads-per-warp" = 32 : i32} {
+  tt.func public @add_kernel(%arg0: !tt.ptr<f32> {tt.divisibility = 16 : i32}, %arg1: !tt.ptr<f32> {tt.divisibility = 16 : i32}, %arg2: !tt.ptr<f32> {tt.divisibility = 16 : i32}, %arg3: i32 {tt.divisibility = 16 : i32}) attributes {noinline = false} {
+    %c1024_i32 = arith.constant 1024 : i32
+    %0 = tt.get_program_id x : i32
+    %1 = arith.muli %0, %c1024_i32 : i32
+    %2 = tt.make_range {end = 1024 : i32, start = 0 : i32} : tensor<1024xi32, #blocked>
+    %3 = tt.splat %1 : i32 -> tensor<1024xi32, #blocked>
+    %4 = arith.addi %3, %2 : tensor<1024xi32, #blocked>
+    %5 = tt.splat %arg3 : i32 -> tensor<1024xi32, #blocked>
+    %6 = arith.cmpi slt, %4, %5 : tensor<1024xi32, #blocked>
+    %7 = tt.splat %arg0 : !tt.ptr<f32> -> tensor<1024x!tt.ptr<f32>, #blocked>
+    %8 = tt.addptr %7, %4 : tensor<1024x!tt.ptr<f32>, #blocked>, tensor<1024xi32, #blocked>
+    %9 = tt.load %8, %6 : tensor<1024x!tt.ptr<f32>, #blocked>
+    %10 = tt.splat %arg1 : !tt.ptr<f32> -> tensor<1024x!tt.ptr<f32>, #blocked>
+    %11 = tt.addptr %10, %4 : tensor<1024x!tt.ptr<f32>, #blocked>, tensor<1024xi32, #blocked>
+    %12 = tt.load %11, %6 : tensor<1024x!tt.ptr<f32>, #blocked>
+    %13 = arith.addf %9, %12 : tensor<1024xf32, #blocked>
+    %14 = tt.splat %arg2 : !tt.ptr<f32> -> tensor<1024x!tt.ptr<f32>, #blocked>
+    %15 = tt.addptr %14, %4 : tensor<1024x!tt.ptr<f32>, #blocked>, tensor<1024xi32, #blocked>
+    tt.store %15, %13, %6 : tensor<1024x!tt.ptr<f32>, #blocked>
+    tt.return
+  }
+}
+
