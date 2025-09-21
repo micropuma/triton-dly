@@ -1037,7 +1037,7 @@ AxisInfoAnalysis::AxisInfoAnalysis(DataFlowSolver &solver,
     callback(visitors);
 }
 
-LogicalResult AxisInfoAnalysis::visitOperation(
+LogicalResult AxisInfoAnalysis::visitOperation(      // 轴分析的入口
     Operation *op, ArrayRef<const dataflow::Lattice<AxisInfo> *> operands,
     ArrayRef<dataflow::Lattice<AxisInfo> *> results) {
   // TODO: For sure not the right way to do this
@@ -1347,7 +1347,7 @@ void ModuleAxisInfoAnalysis::initialize(FunctionOpInterface funcOp,
   });
 }
 
-void ModuleAxisInfoAnalysis::update(CallOpInterface callOp,
+void ModuleAxisInfoAnalysis::update(CallOpInterface callOp,           // 过程间callOp和calleeOp的轴信息传递
                                     FunctionOpInterface callee) {
   auto caller = callOp->getParentOfType<FunctionOpInterface>();
   auto *axisInfoMap = getFuncData(caller);
