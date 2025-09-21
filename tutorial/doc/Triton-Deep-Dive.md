@@ -174,7 +174,15 @@ Readers can refer to [make_ttgir](https://github.com/triton-lang/triton/blob/mai
 In this part, triton do all critical GPU-specific optimizations, with the help fo Axis analysis. Let's first dive into the design of Axis analysis, combined with previous layout information, which clearly shows how tensors are stored and distribute within threads.   
 
 #### Axis Analysis
-Axis Analysis is like other standard analysis pass, gather detailed information to help guide further code transformation. This part highly refer to [OpenAI Triton: Dive into Axis and Coalesce](https://www.zhihu.com/search?type=content&q=triton%20axis%20analysis) blog. Three new concepts are introduced in this phase:  
+Axis Analysis is like other standard analysis pass, gather detailed information to help guide further code transformation. This part highly refer to [OpenAI Triton: Dive into Axis and Coalesce](https://www.zhihu.com/search?type=content&q=triton%20axis%20analysis) blog. To fully understand the detailed implementation behind, we need to understand an important concept: **Dataflow Analysis** and how it is implemented in `Triton` with the help of mlir infrastructure.  
+
+Below is a Flow graph shows the whole dataflow process:  
+
+![AxisInfo Analysis](../png/dataflow.png)
+
+> Refer to [ModuleAxisInfoAnalysis](https://github.com/triton-lang/triton/blob/main/include/triton/Analysis/AxisInfo.h#L191-L270) for detailed implementation of ModuleAxisInfoAnalysis, pay attention to **its class constructure**, [**initialize()**](https://github.com/triton-lang/triton/blob/main/lib/Analysis/AxisInfo.cpp#L1311-L1348). Refer to [AxisInfoAnalysis](https://github.com/triton-lang/triton/blob/main/lib/Analysis/AxisInfo.cpp#L137-L181) for AxisInfoAnalysis, where [**visitOperation()**](https://github.com/triton-lang/triton/blob/main/lib/Analysis/AxisInfo.cpp#L1040-L1075) is essential. Also refer to []() for AxisInfo to see lattice define in dataflow analysis.
+
+Three new concepts are introduced in this phase:  
 * Divisibility
 * Contiguity
 * Constancy  
