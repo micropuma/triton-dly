@@ -176,13 +176,88 @@ In this part, triton do all critical GPU-specific optimizations, with the help f
 #### Axis Analysis
 Axis Analysis is like other standard analysis pass, gather detailed information to help guide further code transformation. This part highly refer to [OpenAI Triton: Dive into Axis and Coalesce](https://www.zhihu.com/search?type=content&q=triton%20axis%20analysis) blog. To fully understand the detailed implementation behind, we need to understand an important concept: **Dataflow Analysis** and how it is implemented in `Triton` with the help of mlir infrastructure.  
 
-Below is a Flow graph shows the whole dataflow process:  
+Below is a Flow graph shows the whole dataflow framework:  
 
 ![AxisInfo Analysis](../png/dataflow.png)
 
-> Refer to [ModuleAxisInfoAnalysis](https://github.com/triton-lang/triton/blob/main/include/triton/Analysis/AxisInfo.h#L191-L270) for detailed implementation of ModuleAxisInfoAnalysis, pay attention to **its class constructure**, [**initialize()**](https://github.com/triton-lang/triton/blob/main/lib/Analysis/AxisInfo.cpp#L1311-L1348). Refer to [AxisInfoAnalysis](https://github.com/triton-lang/triton/blob/main/lib/Analysis/AxisInfo.cpp#L137-L181) for AxisInfoAnalysis, where [**visitOperation()**](https://github.com/triton-lang/triton/blob/main/lib/Analysis/AxisInfo.cpp#L1040-L1075) is essential. Also refer to []() for AxisInfo to see lattice define in dataflow analysis.
+> Refer to [ModuleAxisInfoAnalysis](https://github.com/triton-lang/triton/blob/main/include/triton/Analysis/AxisInfo.h#L191-L270) for detailed implementation of intraprocedual info propagation, pay attention to [**its class construction**]() and [**initialize()**](https://github.com/triton-lang/triton/blob/main/lib/Analysis/AxisInfo.cpp#L1311-L1348). Refer to [AxisInfoAnalysis](https://github.com/triton-lang/triton/blob/main/lib/Analysis/AxisInfo.cpp#L137-L181) for AxisInfoAnalysis, where [**visitOperation()**](https://github.com/triton-lang/triton/blob/main/lib/Analysis/AxisInfo.cpp#L1040-L1075) is essential. Also refer to [AxisInfo.h](https://github.com/triton-lang/triton/blob/main/include/triton/Analysis/AxisInfo.h#L19-L150) for AxisInfo to see lattice define in dataflow analysis. To have a glance of Dataflow framework in MLIR, refer to [Dataflow In MLIR](https://zhuanlan.zhihu.com/p/1895569118196904165) and [The Misssing Guide of Dataflow Analysis in MLIR](https://lowlevelbits.com/p/the-missing-guide-to-dataflow-analysis).   
 
-Three new concepts are introduced in this phase:  
+After clarifying the whole AxisInfo analysis process, let's focus on a certain op (pick `triton::AddPtrOp` here) to show how a certain op's AxisInfo is updated. Below is the source code:  
+
+```cpp
+template <typename OpTy>
+class AddSubOpAxisInfoVisitor final : public BinaryOpVisitorImpl<OpTy> {
+public:
+  using BinaryOpVisitorImpl<OpTy>::BinaryOpVisitorImpl;
+
+private:
+  int64_t getContiguity(OpTy op, const AxisInfo &lhs, const AxisInfo &rhs,
+                        int dim) override {
+    // Contiguity assumes an increasing sequence. So for SubIOp contiguous
+    // RHS doesn't produce a contiguous result.
+    if (isa<arith::SubIOp>(op))
+      return gcd(lhs.getContiguity(dim), rhs.getConstancy(dim));
+
+    return std::max(gcd(lhs.getConstancy(dim), rhs.getContiguity(dim)),
+                    gcd(lhs.getContiguity(dim), rhs.getConstancy(dim)));
+  }
+
+  int64_t getDivisibility(OpTy op, const AxisInfo &lhs, const AxisInfo &rhs,
+                          int dim) override {
+    // lhs = k * d_lhs = k * k' * gcd(d_lhs, d_rhs)
+    // rhs = p * d_rhs = p * p' * gcd(d_lhs, d_rhs)
+    // lhs + rhs = k * d_lhs + p * d_rhs = (k * k' + p * p') * gcd(d_lhs, d_rhs)
+    auto rhsDivisibility = rhs.getDivisibility(dim);
+    if constexpr (std::is_same_v<OpTy, triton::AddPtrOp>) {
+      //  %ptr = addptr %lhs, %rhs
+      // is equivalent to
+      //  %0 = mul %rhs, %elemSize
+      //  %ptr = add %lhs, %0
+      // The result will still be contiguous in terms of elements but not bytes
+      // For example:
+      // addptr [16] : !ptr<i32>, [0, 1, 2, 3] : i32 -> !ptr<i32>
+      // returns:
+      // [16, 20, 24, 28] : !ptr<i32>
+      // with element locations:
+      // [4, 5, 6, 7]
+      // It is "strided contiguous" with a divisibility of 16 bytes
+      auto rank = lhs.getRank();
+      auto elemSize = std::max<int64_t>(
+          1, triton::getPointeeBitWidth(op.getPtr().getType()) / 8);
+      rhsDivisibility = multiplyDivisor(rhs.getDivisibility(dim), elemSize);
+    }
+    return gcd(lhs.getDivisibility(dim), rhsDivisibility);
+  }
+
+  int64_t getConstancy(OpTy op, const AxisInfo &lhs, const AxisInfo &rhs,
+                       int dim) override {
+    return gcd(lhs.getConstancy(dim), rhs.getConstancy(dim));
+  }
+
+  std::optional<int64_t> getConstantValue(OpTy op, const AxisInfo &lhs,
+                                          const AxisInfo &rhs) override {
+    if (lhs.getConstantValue().has_value() &&
+        rhs.getConstantValue().has_value()) {
+      if constexpr (std::is_same_v<OpTy, arith::AddIOp>) {
+        return {lhs.getConstantValue().value() +
+                rhs.getConstantValue().value()};
+      } else if constexpr (std::is_same_v<OpTy, arith::SubIOp>) {
+        return {lhs.getConstantValue().value() -
+                rhs.getConstantValue().value()};
+      } else if constexpr (std::is_same_v<OpTy, triton::AddPtrOp>) {
+        auto rank = lhs.getRank();
+        auto elemSize = std::max<int64_t>(
+            1, triton::getPointeeBitWidth(op.getPtr().getType()) / 8);
+        auto rhsValue = rhs.getConstantValue().value() * elemSize;
+        return {lhs.getConstantValue().value() + rhsValue};
+      }
+    }
+    return {};
+  }
+};
+```
+
+AxisInfo mainly consists of three new concepts:  
 * Divisibility
 * Contiguity
 * Constancy  
