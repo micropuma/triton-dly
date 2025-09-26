@@ -13,6 +13,8 @@ add.ttgir:7:10: remark: %2 = tt.make_range {end = 1024 : i32, start = 0 : i32} :
 add.ttgir:8:10: remark: %3 = tt.splat %1 : i32 -> tensor<1024xi32, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1], divisibility = [1024], constancy = [1024], constant_value = <none>
     %3 = tt.splat %1 : i32 -> tensor<1024xi32, #blocked>
          ^
+
+// 这个divisibility如何理解啊？
 add.ttgir:9:10: remark: %4 = arith.addi %3, %2 : tensor<1024xi32, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1024], divisibility = [1024], constancy = [1], constant_value = <none>
     %4 = arith.addi %3, %2 : tensor<1024xi32, #blocked>
          ^
@@ -25,6 +27,9 @@ add.ttgir:11:10: remark: %6 = arith.cmpi slt, %4, %5 : tensor<1024xi32, #ttg.blo
 add.ttgir:12:10: remark: %7 = tt.splat %arg0 : !tt.ptr<f32> -> tensor<1024x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1], divisibility = [16], constancy = [1024], constant_value = <none>
     %7 = tt.splat %arg0 : !tt.ptr<f32> -> tensor<1024x!tt.ptr<f32>, #blocked>
          ^
+
+// 这个是关键理解点：ptr值 + make_range(0,1024)，所以contiguity是1024
+// divisibility是 16字节 + 1024/8 = 16字节 + 128字节 => 一定是16字节对齐why？
 add.ttgir:13:10: remark: %8 = tt.addptr %7, %4 : tensor<1024x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>>, tensor<1024xi32, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>> => contiguity = [1024], divisibility = [16], constancy = [1], constant_value = <none>
     %8 = tt.addptr %7, %4 : tensor<1024x!tt.ptr<f32>, #blocked>, tensor<1024xi32, #blocked>
          ^

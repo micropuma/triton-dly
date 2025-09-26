@@ -262,6 +262,8 @@ AxisInfo mainly consists of three new concepts:
 * Contiguity
 * Constancy  
 
+Below are comments in source codes, which are clear to follow.
+
 `Divisibility`
 ```shell
 // For example, the 2D array
