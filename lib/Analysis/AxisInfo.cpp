@@ -167,7 +167,7 @@ public:
       dataflow::Lattice<AxisInfo>>::getLatticeElement;
   using FuncAxisInfoMapT = DenseMap<FunctionOpInterface, AxisInfo>;
 
-  LogicalResult
+  LogicalResult                           // 典型的sparse dataflow分析
   visitOperation(Operation *op,
                  ArrayRef<const dataflow::Lattice<AxisInfo> *> operands,
                  ArrayRef<dataflow::Lattice<AxisInfo> *> results) override;
@@ -1132,7 +1132,7 @@ void AxisInfo::initPessimisticStateFromFunc(int argNumber, T funcOp,
   }
 }
 
-/*static*/ AxisInfo AxisInfo::getPessimisticValueState(Value value) {
+/*static*/ AxisInfo AxisInfo::getPessimisticValueState(Value value) {      // Dataflow分析中Lattice的初始状态
   auto rank = 1;
   if (TensorType ty = dyn_cast<TensorType>(value.getType()))
     rank = ty.getRank();
@@ -1189,7 +1189,7 @@ void AxisInfo::initPessimisticStateFromFunc(int argNumber, T funcOp,
   return AxisInfo(knownContiguity, knownDivisibility, knownConstancy);
 }
 
-/*static*/ AxisInfo AxisInfo::join(const AxisInfo &lhs, const AxisInfo &rhs) {
+/*static*/ AxisInfo AxisInfo::join(const AxisInfo &lhs, const AxisInfo &rhs) {   // 前向数据流算法的join操作
   // If one argument is not initialized, return the other.
   if (lhs.getRank() == 0)
     return rhs;
