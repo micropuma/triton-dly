@@ -316,7 +316,8 @@ Below are comments in source codes, which are clear to follow.
 // has constancy [1, 4].
 ```
 
-#### Coalesce Pass
+#### Coalesce Pass  
+After having a general galance of AxisInfo analysis, we first try to understand `Coalesce Optimization`, which enables consecutive memory access in `triton.load` or `triton.store` process. Refer to [OpenAI Triton: Memory coalesce](https://zhuanlan.zhihu.com/p/670141785) doc for further understanding.
 
 ## Chapter5: Python Binding Layer
 refer to [python/src/passes.cpp](https://github.com/triton-lang/triton/blob/main/python/src/passes.cc#L20-L128) and [python/src/passes.h](https://github.com/triton-lang/triton/blob/main/python/src/passes.h#L1-L43)
