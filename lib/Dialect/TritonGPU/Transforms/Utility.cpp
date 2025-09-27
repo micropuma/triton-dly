@@ -95,16 +95,16 @@ bool isLoadFromTensorPtr(triton::LoadOp op) {
 SmallVector<unsigned, 4>
 getOrderFromContiguity(const SmallVector<int64_t> &arr) {
   SmallVector<unsigned, 4> ret(arr.size());
-  std::iota(ret.begin(), ret.end(), 0);
+  std::iota(ret.begin(), ret.end(), 0);    // [0,1,2,3,4] 上升序列
   std::reverse(ret.begin(), ret.end());
   std::stable_sort(ret.begin(), ret.end(),
-                   [&](unsigned x, unsigned y) { return arr[x] > arr[y]; });
+                   [&](unsigned x, unsigned y) { return arr[x] > arr[y]; });   // 即dim上连续性大的order排在前面
   return ret;
 }
 
-Value getMemAccessPtr(Operation *op) {
+Value getMemAccessPtr(Operation *op) {        // coalesce优化只处理load/store/atomic/copy等涉及指针的操作
   if (auto ld = dyn_cast<triton::LoadOp>(op))
-    return ld.getPtr();
+    return ld.getPtr();    // 一般返回的类型是tensor<1024x!tt.ptr<f32>>，用getMask()可以获得load的掩码，用于处理访问越界情况
   if (auto atomic = dyn_cast<triton::AtomicRMWOp>(op))
     return atomic.getPtr();
   if (auto atomic = dyn_cast<triton::AtomicCASOp>(op))

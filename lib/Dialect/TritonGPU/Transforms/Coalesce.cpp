@@ -89,7 +89,7 @@ struct CoalescePass : public impl::TritonGPUCoalesceBase<CoalescePass> {
     auto matchesShape = [&refTensorType](const Value &val) {
       auto rttType = dyn_cast<RankedTensorType>(val.getType());
       return rttType && rttType.getShape() == refTensorType.getShape();
-    };
+    };      // 检查输入和输出shape是否一致
 
     // The desired divisibility is the maximum divisibility among all dependent
     // pointers which have the same shape and order as `ptr`.
@@ -146,7 +146,7 @@ struct CoalescePass : public impl::TritonGPUCoalesceBase<CoalescePass> {
     auto CTALayout = triton::gpu::getCTALayout(refTensorType.getEncoding());
     layoutMap[op] = triton::gpu::BlockedEncodingAttr::get(
         &getContext(), refTensorType.getShape(), sizePerThread, order, numWarps,
-        threadsPerWarp, CTALayout);
+        threadsPerWarp, CTALayout);     // 通过get方法生成新的block layout（注意如果已有attr，则get返回已有，get有唯一性）
   }
 
   static Type getNewType(Type type, Attribute encoding) {

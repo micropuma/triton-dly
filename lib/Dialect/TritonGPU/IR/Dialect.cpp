@@ -3717,7 +3717,7 @@ std::optional<int> triton::gpu::maybeLookupNumWarps(Operation *op) {
     unsigned idx = op->getParentRegion()->getRegionNumber();
     return partitions.getParentOp().getPartitionNumWarps()[idx];
   }
-  if (Operation *parent = op->getParentOp())
+  if (Operation *parent = op->getParentOp())  // 核心逻辑是不断向外层region递归
     return maybeLookupNumWarps(parent);
   return {};
 }

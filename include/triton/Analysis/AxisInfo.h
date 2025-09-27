@@ -228,7 +228,7 @@ public:
     }
   }
 
-  AxisInfo *getAxisInfo(Value value) {
+  AxisInfo *getAxisInfo(Value value) {      // AxisInfoAnalysis以function为单位存储InfoMap
     auto funcOp =
         value.getParentRegion()->getParentOfType<FunctionOpInterface>();
     auto *axisInfoMap = getFuncData(funcOp);
