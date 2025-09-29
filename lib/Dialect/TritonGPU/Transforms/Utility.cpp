@@ -123,8 +123,8 @@ unsigned getElementBitWidth(RankedTensorType type) {
 }
 
 unsigned getNumElementsPerThread(Operation *op, SmallVector<unsigned> order,
-                                 ModuleAxisInfoAnalysis &axisInfoAnalysis) {
-  Value val = getMemAccessPtr(op);
+                                 ModuleAxisInfoAnalysis &axisInfoAnalysis) {     // 计算一个thread应该处理多少element
+  Value val = getMemAccessPtr(op);                                               // 只有后几代架构引入了CTG概念
   auto ty = cast<RankedTensorType>(val.getType());
   auto shapePerCTA = triton::gpu::getShapePerCTA(ty);
   AxisInfo &valInfo = *axisInfoAnalysis.getAxisInfo(val);
@@ -134,8 +134,8 @@ unsigned getNumElementsPerThread(Operation *op, SmallVector<unsigned> order,
   unsigned maxMultiple = std::max(maxMultipleBytes / elemNumBytes, 1u);
   unsigned maxContig =
       std::min(valInfo.getContiguity(order[0]), shapePerCTA[order[0]]);
-  unsigned alignment = std::min(maxMultiple, maxContig);
-  unsigned currPerThread = std::min(alignment, 128 / elemNumBits);
+  unsigned alignment = std::min(maxMultiple, maxContig);                   // 平衡对齐要求和连续性要求
+  unsigned currPerThread = std::min(alignment, 128 / elemNumBits);         // 一个transaction最多一次处理（load/store）128bits
   LDBG("elemNumBytes: " << elemNumBytes
                         << ", divisibility: " << maxMultipleBytes
                         << ", contig: " << valInfo.getContiguity(order[0])

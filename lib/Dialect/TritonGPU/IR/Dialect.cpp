@@ -287,7 +287,7 @@ SmallVector<unsigned> getCTAOrder(Attribute layout) {
 }
 
 SmallVector<int64_t> getShapePerCTA(ArrayRef<unsigned> CTASplitNum,
-                                    ArrayRef<int64_t> shape) {
+                                    ArrayRef<int64_t> shape) {    // 需要考虑CTASplit问题
   unsigned rank = shape.size();
   auto splitNum = llvm::to_vector(CTASplitNum);
   if (splitNum.size() <= rank) { // pipelining
