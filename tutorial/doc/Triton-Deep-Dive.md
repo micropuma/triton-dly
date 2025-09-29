@@ -317,7 +317,212 @@ Below are comments in source codes, which are clear to follow.
 ```
 
 #### Coalesce Pass  
-After having a general galance of AxisInfo analysis, we first try to understand `Coalesce Optimization`, which enables consecutive memory access in `triton.load` or `triton.store` process. Refer to [OpenAI Triton: Memory coalesce](https://zhuanlan.zhihu.com/p/670141785) doc for further understanding.
+After having a general galance of AxisInfo analysis, we first try to understand `Coalesce Optimization`, which enables consecutive memory access in `triton.load` or `triton.store` process. Refer to [OpenAI Triton: Memory coalesce](https://zhuanlan.zhihu.com/p/670141785) doc for further understanding.  
+
+`Transpose case-study` :key:
+
+First let's see a transpose test case to see how coalesce helps optimize:  
+```cpp
+#blocked0 = #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>
+#blocked1 = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>
+#blocked2 = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>
+#slice1dim1 = #ttg.slice<{dim = 1, parent = #blocked1}>
+#slice2dim0 = #ttg.slice<{dim = 0, parent = #blocked2}>
+
+module attributes {"ttg.num-ctas" = 1 : i32, "ttg.num-warps" = 4 : i32} {
+
+tt.func @transpose(%arg0: !tt.ptr<f32> {tt.divisibility = 16 : i32},
+                %arg1: i32 {tt.divisibility = 16 : i32},
+                %arg2: !tt.ptr<f32> {tt.divisibility = 16 : i32},
+                %arg3: i32 {tt.divisibility = 16 : i32}) {
+  // 定义boolean类型的掩码张量，初始值为true
+  // 定义浮点类型的张量，初始值为0.0
+  %cst = arith.constant dense<true> : tensor<64x64xi1, #blocked1>
+  %cst_0 = arith.constant dense<0.000000e+00> : tensor<64x64xf32, #blocked1>
+
+  // 计算每行的起始地址
+  // 计算base_ptr + row_index * row_stride
+  %00 = tt.make_range {end = 64 : i32, start = 0 : i32} : tensor<64xi32, #slice1dim1>
+  %01 = tt.make_range {end = 64 : i32, start = 0 : i32} : tensor<64xi32, #slice2dim0>
+  %1 = tt.expand_dims %00 {axis = 1 : i32} : tensor<64xi32, #slice1dim1> -> tensor<64x1xi32, #blocked1>
+  %2 = tt.splat %arg1 : i32 -> tensor<64x1xi32, #blocked1>
+  %3 = arith.muli %1, %2 : tensor<64x1xi32, #blocked1>
+  %4 = tt.splat %arg0 : !tt.ptr<f32> -> tensor<64x1x!tt.ptr<f32>, #blocked1>
+  %5 = tt.addptr %4, %3 : tensor<64x1x!tt.ptr<f32>, #blocked1>, tensor<64x1xi32, #blocked1>
+
+  // 计算列的位置
+  // 公式为input_address = base_ptr + row_index * row_stride + col_index
+  %6 = tt.expand_dims %01 {axis = 0 : i32} : tensor<64xi32, #slice2dim0> -> tensor<1x64xi32, #blocked2>
+  %7 = tt.broadcast %5 : tensor<64x1x!tt.ptr<f32>, #blocked1> -> tensor<64x64x!tt.ptr<f32>, #blocked1>
+  %8 = tt.broadcast %6 : tensor<1x64xi32, #blocked2> -> tensor<64x64xi32, #blocked2>
+  %9 = ttg.convert_layout %8 : tensor<64x64xi32, #blocked2> -> tensor<64x64xi32, #blocked1>
+  // 最终的load 地址
+  %10 = tt.addptr %7, %9 : tensor<64x64x!tt.ptr<f32>, #blocked1>, tensor<64x64xi32, #blocked1>
+
+  // 计算最终store的地址
+  // 公式为：output_address = base_ptr_out + col_index * output_row_stride + row_index
+  %11 = tt.splat %arg2 : !tt.ptr<f32> -> tensor<64x1x!tt.ptr<f32>, #blocked1>    
+  %12 = tt.addptr %11, %1 : tensor<64x1x!tt.ptr<f32>, #blocked1>, tensor<64x1xi32, #blocked1>  // 行基地址
+  %13 = tt.splat %arg3 : i32 -> tensor<1x64xi32, #blocked2>  // 输出行步长
+  // 计算行偏移
+  %14 = arith.muli %6, %13 : tensor<1x64xi32, #blocked2>     // 列索引 * 输出行步长
+  %15 = tt.broadcast %12 : tensor<64x1x!tt.ptr<f32>, #blocked1> -> tensor<64x64x!tt.ptr<f32>, #blocked1>
+  %16 = tt.broadcast %14 : tensor<1x64xi32, #blocked2> -> tensor<64x64xi32, #blocked2>
+  %17 = ttg.convert_layout %16 : tensor<64x64xi32, #blocked2> -> tensor<64x64xi32, #blocked1>
+  %18 = tt.addptr %15, %17 : tensor<64x64x!tt.ptr<f32>, #blocked1>, tensor<64x64xi32, #blocked1>  // 输出矩阵元素地址
+
+  // load操作
+  %19 = tt.load %10, %cst, %cst_0 : tensor<64x64x!tt.ptr<f32>, #blocked1>
+  // store操作
+  tt.store %18, %19, %cst : tensor<64x64x!tt.ptr<f32>, #blocked1>
+  tt.return
+}
+}
+```  
+
+To write a correct transpose triton-lang is quite easy, the key part lies in pointer calculation. That is, `A[i, j]` goes to `A-prime[j][i]`, where the math should be converted from `base_ptr + row_index * row_stride + col_index` to `base_ptr_out + col_index * output_row_stride + row_index`.   
+
+The main tricks are `layout config` and `layout `. Let's first analyze the origin layouts and potential optimizations that coalesce pass can make, see below:
+
+> `#blocked1 = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>` means
+> each thread only process one item, each warp has 32 threads and distributed among rows. That is a thread is responsible for a row, this layout is quite bad for `tt.load`.    
+> So there are two potential optimizations: (1) each thread process continguous 4 items, that is 4 x 32 = 128bits, which fits a 
+> vector operation length. (2) change layout for `tt.load`to row manner, that is distribute threads in warp in a row / few rows.  
+
+Here is the optimized code:   
+
+```cpp
+#blocked = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>
+#blocked1 = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>
+#blocked2 = #ttg.blocked<{sizePerThread = [1, 4], threadsPerWarp = [2, 16], warpsPerCTA = [4, 1], order = [1, 0]}>
+#blocked3 = #ttg.blocked<{sizePerThread = [4, 1], threadsPerWarp = [16, 2], warpsPerCTA = [1, 4], order = [0, 1]}>
+module attributes {"ttg.num-ctas" = 1 : i32, "ttg.num-warps" = 4 : i32} {
+  tt.func @transpose(%arg0: !tt.ptr<f32> {tt.divisibility = 16 : i32}, %arg1: i32 {tt.divisibility = 16 : i32}, %arg2: !tt.ptr<f32> {tt.divisibility = 16 : i32}, %arg3: i32 {tt.divisibility = 16 : i32}) {
+    %cst = arith.constant dense<true> : tensor<64x64xi1, #blocked>
+    %cst_0 = arith.constant dense<0.000000e+00> : tensor<64x64xf32, #blocked>
+    %0 = tt.make_range {end = 64 : i32, start = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 1, parent = #blocked}>>
+    %1 = tt.make_range {end = 64 : i32, start = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 0, parent = #blocked1}>>
+    %2 = tt.expand_dims %0 {axis = 1 : i32} : tensor<64xi32, #ttg.slice<{dim = 1, parent = #blocked}>> -> tensor<64x1xi32, #blocked>
+    %3 = tt.splat %arg1 : i32 -> tensor<64x1xi32, #blocked>
+    %4 = arith.muli %2, %3 : tensor<64x1xi32, #blocked>
+    %5 = tt.splat %arg0 : !tt.ptr<f32> -> tensor<64x1x!tt.ptr<f32>, #blocked>
+    %6 = tt.addptr %5, %4 : tensor<64x1x!tt.ptr<f32>, #blocked>, tensor<64x1xi32, #blocked>
+    %7 = tt.expand_dims %1 {axis = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 0, parent = #blocked1}>> -> tensor<1x64xi32, #blocked1>
+    %8 = tt.broadcast %6 : tensor<64x1x!tt.ptr<f32>, #blocked> -> tensor<64x64x!tt.ptr<f32>, #blocked>
+    %9 = tt.broadcast %7 : tensor<1x64xi32, #blocked1> -> tensor<64x64xi32, #blocked1>
+    %10 = ttg.convert_layout %9 : tensor<64x64xi32, #blocked1> -> tensor<64x64xi32, #blocked>
+    %11 = tt.addptr %8, %10 : tensor<64x64x!tt.ptr<f32>, #blocked>, tensor<64x64xi32, #blocked>
+    %12 = tt.splat %arg2 : !tt.ptr<f32> -> tensor<64x1x!tt.ptr<f32>, #blocked>
+    %13 = tt.addptr %12, %2 : tensor<64x1x!tt.ptr<f32>, #blocked>, tensor<64x1xi32, #blocked>
+    %14 = tt.splat %arg3 : i32 -> tensor<1x64xi32, #blocked1>
+    %15 = arith.muli %7, %14 : tensor<1x64xi32, #blocked1>
+    %16 = tt.broadcast %13 : tensor<64x1x!tt.ptr<f32>, #blocked> -> tensor<64x64x!tt.ptr<f32>, #blocked>
+    %17 = tt.broadcast %15 : tensor<1x64xi32, #blocked1> -> tensor<64x64xi32, #blocked1>
+    %18 = ttg.convert_layout %17 : tensor<64x64xi32, #blocked1> -> tensor<64x64xi32, #blocked>
+    %19 = tt.addptr %16, %18 : tensor<64x64x!tt.ptr<f32>, #blocked>, tensor<64x64xi32, #blocked>
+    %20 = ttg.convert_layout %11 : tensor<64x64x!tt.ptr<f32>, #blocked> -> tensor<64x64x!tt.ptr<f32>, #blocked2>
+    %21 = ttg.convert_layout %cst : tensor<64x64xi1, #blocked> -> tensor<64x64xi1, #blocked2>
+    %22 = ttg.convert_layout %cst_0 : tensor<64x64xf32, #blocked> -> tensor<64x64xf32, #blocked2>
+    %23 = tt.load %20, %21, %22 : tensor<64x64x!tt.ptr<f32>, #blocked2>
+    %24 = ttg.convert_layout %23 : tensor<64x64xf32, #blocked2> -> tensor<64x64xf32, #blocked>
+    %25 = ttg.convert_layout %19 : tensor<64x64x!tt.ptr<f32>, #blocked> -> tensor<64x64x!tt.ptr<f32>, #blocked3>
+    %26 = ttg.convert_layout %24 : tensor<64x64xf32, #blocked> -> tensor<64x64xf32, #blocked3>
+    %27 = ttg.convert_layout %cst : tensor<64x64xi1, #blocked> -> tensor<64x64xi1, #blocked3>
+    tt.store %25, %26, %27 : tensor<64x64x!tt.ptr<f32>, #blocked3>
+    tt.return
+  }
+}
+```
+
+Then let's dive into how triton makes coalesce pass come true:  
+
+`Coalesce Implementation`
+What coalesce does is quite simple, it only focus on following five operations that are global memory-related:  
+
+```cpp
+Value getMemAccessPtr(Operation *op) {        // coalesce优化只处理load/store/atomic/copy等涉及指针的操作
+  if (auto ld = dyn_cast<triton::LoadOp>(op))
+    return ld.getPtr();    // 一般返回的类型是tensor<1024x!tt.ptr<f32>>，用getMask()可以获得load的掩码，用于处理访问越界情况
+  if (auto atomic = dyn_cast<triton::AtomicRMWOp>(op))
+    return atomic.getPtr();
+  if (auto atomic = dyn_cast<triton::AtomicCASOp>(op))
+    return atomic.getPtr();
+  if (auto copy = dyn_cast<triton::gpu::AsyncCopyGlobalToLocalOp>(op))
+    return copy.getSrc();
+  if (auto store = dyn_cast<triton::StoreOp>(op))
+    return store.getPtr();
+  return nullptr;
+}
+```
+
+What it does to these five operations are: 
+1. Create a coalesced memory layout L2 of the pointer operands (determined by Axisinfo analysis:key:)
+2. Convert all operands from layout L1 to layout L2 (`ttg.convert_layout` inserted:key:)
+3. Create a new memory op that consumes these operands and produces a tensor with layout L2
+4. Convert the output of this new memory op back to L1
+5. Replace all the uses of the original memory op by the new one  
+
+From the five steps above, most important parts are:    
+* Layout Determination by AxisInfo Analysis
+* Insertion of Layout conversion operation
+
+First let's have a view on Layout determination. Below is the AxisInfo dumped:
+```cpp
+[tritongpu-coalesce]: Considering op: %20 = tt.load %11, %cst, %cst_0 : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[tritongpu-coalesce]: axis info of pointer: contiguity = [1, 64], divisibility = [4, 16], constancy = [1, 1], constant_value = <none>
+[tritongpu-coalesce]: order=[1, 0]
+[tritongpu-coalesce]: shapePerCTA=[64, 64]
+[ttg-utility]: elemNumBytes: 4, divisibility: 16, contig: 64, alignment: 4
+[tritongpu-coalesce]: perThread for op: 4
+[tritongpu-coalesce]: perThread: 4
+```
+
+```cpp
+[tritongpu-coalesce]: Considering op: tt.store %19, %20, %cst : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[tritongpu-coalesce]: axis info of pointer: contiguity = [64, 1], divisibility = [16, 4], constancy = [1, 1], constant_value = <none>
+[tritongpu-coalesce]: order=[0, 1]
+[tritongpu-coalesce]: shapePerCTA=[64, 64]
+[ttg-utility]: elemNumBytes: 4, divisibility: 16, contig: 64, alignment: 4
+[tritongpu-coalesce]: perThread for op: 4
+[tritongpu-coalesce]: perThread: 4
+[ttg-utility]: elemNumBytes: 4, divisibility: 16, contig: 64, alignment: 4
+```  
+
+Two key functions, one for order determination and another for elements/thread determination:  
+```cpp
+SmallVector<unsigned, 4>
+getOrderFromContiguity(const SmallVector<int64_t> &arr) {
+  SmallVector<unsigned, 4> ret(arr.size());
+  std::iota(ret.begin(), ret.end(), 0);    // [0,1,2,3,4] 上升序列
+  std::reverse(ret.begin(), ret.end());
+  std::stable_sort(ret.begin(), ret.end(),
+                   [&](unsigned x, unsigned y) { return arr[x] > arr[y]; });   // 即dim上连续性大的order排在前面
+  return ret;
+}
+```
+
+```cpp
+unsigned getNumElementsPerThread(Operation *op, SmallVector<unsigned> order,
+                                 ModuleAxisInfoAnalysis &axisInfoAnalysis) {     // 计算一个thread应该处理多少element
+  Value val = getMemAccessPtr(op);                                               // 只有后几代架构引入了CTG概念
+  auto ty = cast<RankedTensorType>(val.getType());
+  auto shapePerCTA = triton::gpu::getShapePerCTA(ty);
+  AxisInfo &valInfo = *axisInfoAnalysis.getAxisInfo(val);
+  unsigned elemNumBits = getElementBitWidth(ty);
+  unsigned elemNumBytes = std::max(elemNumBits / 8, 1u);
+  unsigned maxMultipleBytes = valInfo.getDivisibility(order[0]);
+  unsigned maxMultiple = std::max(maxMultipleBytes / elemNumBytes, 1u);
+  unsigned maxContig =
+      std::min(valInfo.getContiguity(order[0]), shapePerCTA[order[0]]);
+  unsigned alignment = std::min(maxMultiple, maxContig);                   // 平衡对齐要求和连续性要求
+  unsigned currPerThread = std::min(alignment, 128 / elemNumBits);         // 一个transaction最多一次处理（load/store）128bits
+  LDBG("elemNumBytes: " << elemNumBytes
+                        << ", divisibility: " << maxMultipleBytes
+                        << ", contig: " << valInfo.getContiguity(order[0])
+                        << ", alignment: " << alignment);
+  return currPerThread;
+}
+```
 
 ## Chapter5: Python Binding Layer
 refer to [python/src/passes.cpp](https://github.com/triton-lang/triton/blob/main/python/src/passes.cc#L20-L128) and [python/src/passes.h](https://github.com/triton-lang/triton/blob/main/python/src/passes.h#L1-L43)
