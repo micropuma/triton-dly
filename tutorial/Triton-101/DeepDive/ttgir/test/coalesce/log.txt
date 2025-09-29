@@ -1,0 +1,1442 @@
+Args: triton-opt ./coalesce.mlir -split-input-file -tritongpu-coalesce -debug -o output.mlir 
+Load new dialect in Context builtin
+Load new dialect in Context builtin
+Load new dialect in Context ttg
+Load new dialect in Context tt
+Load new dialect in Context arith
+Load new dialect in Context math
+Load new dialect in Context scf
+Load new dialect in Context cf
+Load new dialect in Context ub
+Load new dialect in Context gpu
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (1)
+   lane=2 -> (2)
+   lane=4 -> (4)
+   lane=8 -> (8)
+   lane=16 -> (16)
+where out dims are: [dim0 (size 32)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (1)
+   lane=2 -> (2)
+   lane=4 -> (4)
+   lane=8 -> (8)
+   lane=16 -> (16)
+where out dims are: [dim0 (size 32)]
+[linear_layout]: checkInvariants: 
+ - lane is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (16, 0)
+where out dims are: [dim0 (size 32), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (16, 0)
+where out dims are: [dim0 (size 32), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - warp=1 -> (1)
+   warp=2 -> (2)
+where out dims are: [dim0 (size 4)]
+[linear_layout]: checkInvariants: 
+ - warp=1 -> (1)
+   warp=2 -> (2)
+where out dims are: [dim0 (size 4)]
+[linear_layout]: checkInvariants: 
+ - warp is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - warp=1 -> (1, 0)
+   warp=2 -> (2, 0)
+where out dims are: [dim0 (size 4), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (16, 0)
+ - warp=1 -> (32, 0)
+   warp=2 -> (64, 0)
+where out dims are: [dim0 (size 128), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1), dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (16, 0)
+ - warp=1 -> (32, 0)
+   warp=2 -> (64, 0)
+where out dims are: [dim0 (size 128), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (16, 0)
+ - warp=1 -> (32, 0)
+   warp=2 -> (64, 0)
+where out dims are: [dim0 (size 128), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (16, 0)
+ - warp=1 -> (32, 0)
+   warp=2 -> (0, 0)
+where out dims are: [dim0 (size 64), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (16, 0)
+ - warp=1 -> (32, 0)
+   warp=2 -> (0, 0)
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 64), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (16, 0)
+ - warp=1 -> (32, 0)
+   warp=2 -> (0, 0)
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 64), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - dim0=1 -> (1)
+   dim0=2 -> (2)
+   dim0=4 -> (4)
+   dim0=8 -> (8)
+   dim0=16 -> (16)
+   dim0=32 -> (32)
+where out dims are: [dim0 (size 64)]
+[linear_layout]: checkInvariants: 
+ - dim0=1 -> (1)
+   dim0=2 -> (2)
+   dim0=4 -> (4)
+   dim0=8 -> (8)
+   dim0=16 -> (16)
+   dim0=32 -> (32)
+where out dims are: [dim0 (size 64)]
+[linear_layout]: checkInvariants: 
+ - dim1 is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - dim0=1 -> (1)
+   dim0=2 -> (2)
+   dim0=4 -> (4)
+   dim0=8 -> (8)
+   dim0=16 -> (16)
+   dim0=32 -> (32)
+ - dim1 is a size 1 dimension
+where out dims are: [dim0 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (1)
+   lane=2 -> (2)
+   lane=4 -> (4)
+   lane=8 -> (8)
+   lane=16 -> (16)
+ - warp=1 -> (32)
+   warp=2 -> (0)
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (1)
+   lane=2 -> (2)
+   lane=4 -> (4)
+   lane=8 -> (8)
+   lane=16 -> (16)
+ - warp=1 -> (32)
+   warp=2 -> (0)
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - lane is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - lane is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (1)
+   lane=2 -> (2)
+   lane=4 -> (4)
+   lane=8 -> (8)
+   lane=16 -> (16)
+where out dims are: [dim1 (size 32)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (0, 1)
+   lane=2 -> (0, 2)
+   lane=4 -> (0, 4)
+   lane=8 -> (0, 8)
+   lane=16 -> (0, 16)
+where out dims are: [dim0 (size 1), dim1 (size 32)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (0, 1)
+   lane=2 -> (0, 2)
+   lane=4 -> (0, 4)
+   lane=8 -> (0, 8)
+   lane=16 -> (0, 16)
+where out dims are: [dim0 (size 1), dim1 (size 32)]
+[linear_layout]: checkInvariants: 
+ - warp is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - warp is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - warp=1 -> (1)
+   warp=2 -> (2)
+where out dims are: [dim1 (size 4)]
+[linear_layout]: checkInvariants: 
+ - warp=1 -> (0, 1)
+   warp=2 -> (0, 2)
+where out dims are: [dim0 (size 1), dim1 (size 4)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (0, 1)
+   lane=2 -> (0, 2)
+   lane=4 -> (0, 4)
+   lane=8 -> (0, 8)
+   lane=16 -> (0, 16)
+ - warp=1 -> (0, 32)
+   warp=2 -> (0, 64)
+where out dims are: [dim0 (size 1), dim1 (size 128)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1), dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (0, 1)
+   lane=2 -> (0, 2)
+   lane=4 -> (0, 4)
+   lane=8 -> (0, 8)
+   lane=16 -> (0, 16)
+ - warp=1 -> (0, 32)
+   warp=2 -> (0, 64)
+where out dims are: [dim0 (size 1), dim1 (size 128)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (0, 1)
+   lane=2 -> (0, 2)
+   lane=4 -> (0, 4)
+   lane=8 -> (0, 8)
+   lane=16 -> (0, 16)
+ - warp=1 -> (0, 32)
+   warp=2 -> (0, 64)
+where out dims are: [dim0 (size 1), dim1 (size 128)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (0, 1)
+   lane=2 -> (0, 2)
+   lane=4 -> (0, 4)
+   lane=8 -> (0, 8)
+   lane=16 -> (0, 16)
+ - warp=1 -> (0, 32)
+   warp=2 -> (0, 0)
+where out dims are: [dim0 (size 1), dim1 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (0, 1)
+   lane=2 -> (0, 2)
+   lane=4 -> (0, 4)
+   lane=8 -> (0, 8)
+   lane=16 -> (0, 16)
+ - warp=1 -> (0, 32)
+   warp=2 -> (0, 0)
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (0, 1)
+   lane=2 -> (0, 2)
+   lane=4 -> (0, 4)
+   lane=8 -> (0, 8)
+   lane=16 -> (0, 16)
+ - warp=1 -> (0, 32)
+   warp=2 -> (0, 0)
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 64)]
+[linear_layout]: checkInvariants: 
+ - dim0 is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - dim0 is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - dim1=1 -> (1)
+   dim1=2 -> (2)
+   dim1=4 -> (4)
+   dim1=8 -> (8)
+   dim1=16 -> (16)
+   dim1=32 -> (32)
+where out dims are: [dim0 (size 64)]
+[linear_layout]: checkInvariants: 
+ - dim0 is a size 1 dimension
+ - dim1=1 -> (1)
+   dim1=2 -> (2)
+   dim1=4 -> (4)
+   dim1=8 -> (8)
+   dim1=16 -> (16)
+   dim1=32 -> (32)
+where out dims are: [dim0 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (1)
+   lane=2 -> (2)
+   lane=4 -> (4)
+   lane=8 -> (8)
+   lane=16 -> (16)
+ - warp=1 -> (32)
+   warp=2 -> (0)
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (1)
+   lane=2 -> (2)
+   lane=4 -> (4)
+   lane=8 -> (8)
+   lane=16 -> (16)
+ - warp=1 -> (32)
+   warp=2 -> (0)
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (1)
+   lane=2 -> (2)
+   lane=4 -> (4)
+   lane=8 -> (8)
+   lane=16 -> (16)
+where out dims are: [dim0 (size 32)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (1)
+   lane=2 -> (2)
+   lane=4 -> (4)
+   lane=8 -> (8)
+   lane=16 -> (16)
+where out dims are: [dim0 (size 32)]
+[linear_layout]: checkInvariants: 
+ - lane is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (16, 0)
+where out dims are: [dim0 (size 32), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (16, 0)
+where out dims are: [dim0 (size 32), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - warp=1 -> (1)
+   warp=2 -> (2)
+where out dims are: [dim0 (size 4)]
+[linear_layout]: checkInvariants: 
+ - warp=1 -> (1)
+   warp=2 -> (2)
+where out dims are: [dim0 (size 4)]
+[linear_layout]: checkInvariants: 
+ - warp is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - warp=1 -> (1, 0)
+   warp=2 -> (2, 0)
+where out dims are: [dim0 (size 4), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (16, 0)
+ - warp=1 -> (32, 0)
+   warp=2 -> (64, 0)
+where out dims are: [dim0 (size 128), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1), dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (16, 0)
+ - warp=1 -> (32, 0)
+   warp=2 -> (64, 0)
+where out dims are: [dim0 (size 128), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1)
+   register=2 -> (2)
+   register=4 -> (4)
+   register=8 -> (8)
+   register=16 -> (16)
+   register=32 -> (32)
+where out dims are: [dim1 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (0, 1)
+   register=2 -> (0, 2)
+   register=4 -> (0, 4)
+   register=8 -> (0, 8)
+   register=16 -> (0, 16)
+   register=32 -> (0, 32)
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (16, 0)
+ - warp=1 -> (32, 0)
+   warp=2 -> (64, 0)
+where out dims are: [dim0 (size 128), dim1 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (0, 1)
+   register=2 -> (0, 2)
+   register=4 -> (0, 4)
+   register=8 -> (0, 8)
+   register=16 -> (0, 16)
+   register=32 -> (0, 32)
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (16, 0)
+ - warp=1 -> (32, 0)
+   warp=2 -> (0, 0)
+where out dims are: [dim0 (size 64), dim1 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (0, 1)
+   register=2 -> (0, 2)
+   register=4 -> (0, 4)
+   register=8 -> (0, 8)
+   register=16 -> (0, 16)
+   register=32 -> (0, 32)
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (16, 0)
+ - warp=1 -> (32, 0)
+   warp=2 -> (0, 0)
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 64), dim1 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (0, 1)
+   register=2 -> (0, 2)
+   register=4 -> (0, 4)
+   register=8 -> (0, 8)
+   register=16 -> (0, 16)
+   register=32 -> (0, 32)
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (16, 0)
+ - warp=1 -> (32, 0)
+   warp=2 -> (0, 0)
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 64), dim1 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - lane is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - lane is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (1)
+   lane=2 -> (2)
+   lane=4 -> (4)
+   lane=8 -> (8)
+   lane=16 -> (16)
+where out dims are: [dim1 (size 32)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (0, 1)
+   lane=2 -> (0, 2)
+   lane=4 -> (0, 4)
+   lane=8 -> (0, 8)
+   lane=16 -> (0, 16)
+where out dims are: [dim0 (size 1), dim1 (size 32)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (0, 1)
+   lane=2 -> (0, 2)
+   lane=4 -> (0, 4)
+   lane=8 -> (0, 8)
+   lane=16 -> (0, 16)
+where out dims are: [dim0 (size 1), dim1 (size 32)]
+[linear_layout]: checkInvariants: 
+ - warp is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - warp is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - warp=1 -> (1)
+   warp=2 -> (2)
+where out dims are: [dim1 (size 4)]
+[linear_layout]: checkInvariants: 
+ - warp=1 -> (0, 1)
+   warp=2 -> (0, 2)
+where out dims are: [dim0 (size 1), dim1 (size 4)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+ - lane=1 -> (0, 1)
+   lane=2 -> (0, 2)
+   lane=4 -> (0, 4)
+   lane=8 -> (0, 8)
+   lane=16 -> (0, 16)
+ - warp=1 -> (0, 32)
+   warp=2 -> (0, 64)
+where out dims are: [dim0 (size 1), dim1 (size 128)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1), dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1)
+   register=2 -> (2)
+   register=4 -> (4)
+   register=8 -> (8)
+   register=16 -> (16)
+   register=32 -> (32)
+where out dims are: [dim0 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+   register=4 -> (4, 0)
+   register=8 -> (8, 0)
+   register=16 -> (16, 0)
+   register=32 -> (32, 0)
+ - lane=1 -> (0, 1)
+   lane=2 -> (0, 2)
+   lane=4 -> (0, 4)
+   lane=8 -> (0, 8)
+   lane=16 -> (0, 16)
+ - warp=1 -> (0, 32)
+   warp=2 -> (0, 64)
+where out dims are: [dim0 (size 64), dim1 (size 128)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+   register=4 -> (4, 0)
+   register=8 -> (8, 0)
+   register=16 -> (16, 0)
+   register=32 -> (32, 0)
+ - lane=1 -> (0, 1)
+   lane=2 -> (0, 2)
+   lane=4 -> (0, 4)
+   lane=8 -> (0, 8)
+   lane=16 -> (0, 16)
+ - warp=1 -> (0, 32)
+   warp=2 -> (0, 64)
+where out dims are: [dim0 (size 64), dim1 (size 128)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+   register=4 -> (4, 0)
+   register=8 -> (8, 0)
+   register=16 -> (16, 0)
+   register=32 -> (32, 0)
+ - lane=1 -> (0, 1)
+   lane=2 -> (0, 2)
+   lane=4 -> (0, 4)
+   lane=8 -> (0, 8)
+   lane=16 -> (0, 16)
+ - warp=1 -> (0, 32)
+   warp=2 -> (0, 0)
+where out dims are: [dim0 (size 64), dim1 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+   register=4 -> (4, 0)
+   register=8 -> (8, 0)
+   register=16 -> (16, 0)
+   register=32 -> (32, 0)
+ - lane=1 -> (0, 1)
+   lane=2 -> (0, 2)
+   lane=4 -> (0, 4)
+   lane=8 -> (0, 8)
+   lane=16 -> (0, 16)
+ - warp=1 -> (0, 32)
+   warp=2 -> (0, 0)
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 64), dim1 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+   register=4 -> (4, 0)
+   register=8 -> (8, 0)
+   register=16 -> (16, 0)
+   register=32 -> (32, 0)
+ - lane=1 -> (0, 1)
+   lane=2 -> (0, 2)
+   lane=4 -> (0, 4)
+   lane=8 -> (0, 8)
+   lane=16 -> (0, 16)
+ - warp=1 -> (0, 32)
+   warp=2 -> (0, 0)
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 64), dim1 (size 64)]
+[dataflow:1] DataFlowFramework.cpp:118 Priming analysis: mlir::dataflow::DeadCodeAnalysis
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:129 Initializing DeadCodeAnalysis for top-level op: tt.func
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Executable of <before operation>:%cst = arith.constant dense<true> : tensor<64x64xi1, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: live
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:138 Marked entry block live for region in op: tt.func
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:149 [init] Entering initializeSymbolCallables for top-level op: tt.func
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:219 [init] Finished initializeSymbolCallables for top-level op: tt.func
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.func at 0x625f41979db0
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237 [init] Visiting op with control-flow semantics: tt.func @transpose(%arg0: !tt.ptr<f32> {tt.divisibility = 16 : i32}, %arg1: i32 {tt.divisibility = 16 : i32}, %arg2: !tt.ptr<f32> {tt.divisibility = 16 : i32}, %arg3: i32 {tt.divisibility = 16 : i32}) {
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %cst = arith.constant dense<true> : tensor<64x64xi1, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %cst_0 = arith.constant dense<0.000000e+00> : tensor<64x64xf32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %0 = tt.make_range {end = 64 : i32, start = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 1, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %1 = tt.make_range {end = 64 : i32, start = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 0, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %2 = tt.expand_dims %0 {axis = 1 : i32} : tensor<64xi32, #ttg.slice<{dim = 1, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>}>> -> tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %3 = tt.splat %arg1 : i32 -> tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %4 = arith.muli %2, %3 : tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %5 = tt.splat %arg0 : !tt.ptr<f32> -> tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %6 = tt.addptr %5, %4 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %7 = tt.expand_dims %1 {axis = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 0, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>}>> -> tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %8 = tt.broadcast %6 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>> -> tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %9 = tt.broadcast %7 : tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %10 = ttg.convert_layout %9 : tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %11 = tt.addptr %8, %10 : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %12 = tt.splat %arg2 : !tt.ptr<f32> -> tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %13 = tt.addptr %12, %2 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %14 = tt.splat %arg3 : i32 -> tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %15 = arith.muli %7, %14 : tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %16 = tt.broadcast %13 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>> -> tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %17 = tt.broadcast %15 : tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %18 = ttg.convert_layout %17 : tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %19 = tt.addptr %16, %18 : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   %20 = tt.load %11, %cst, %cst_0 : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   tt.store %19, %20, %cst : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237   tt.return
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237 }
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:284 Visiting program point: 0x625f419877d0 <after operation>:tt.func @transpose(%arg0: !tt.ptr<f32> {tt.divisibility = 16 : i32}, %arg1: i32 {tt.divisibility = 16 : i32}, %arg2: !tt.ptr<f32> {tt.divisibility = 16 : i32}, %arg3: i32 {tt.divisibility = 16 : i32}) {...}
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288 Visiting operation: tt.func @transpose(%arg0: !tt.ptr<f32> {tt.divisibility = 16 : i32}, %arg1: i32 {tt.divisibility = 16 : i32}, %arg2: !tt.ptr<f32> {tt.divisibility = 16 : i32}, %arg3: i32 {tt.divisibility = 16 : i32}) {
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %cst = arith.constant dense<true> : tensor<64x64xi1, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %cst_0 = arith.constant dense<0.000000e+00> : tensor<64x64xf32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %0 = tt.make_range {end = 64 : i32, start = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 1, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %1 = tt.make_range {end = 64 : i32, start = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 0, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %2 = tt.expand_dims %0 {axis = 1 : i32} : tensor<64xi32, #ttg.slice<{dim = 1, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>}>> -> tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %3 = tt.splat %arg1 : i32 -> tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %4 = arith.muli %2, %3 : tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %5 = tt.splat %arg0 : !tt.ptr<f32> -> tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %6 = tt.addptr %5, %4 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %7 = tt.expand_dims %1 {axis = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 0, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>}>> -> tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %8 = tt.broadcast %6 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>> -> tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %9 = tt.broadcast %7 : tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %10 = ttg.convert_layout %9 : tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %11 = tt.addptr %8, %10 : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %12 = tt.splat %arg2 : !tt.ptr<f32> -> tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %13 = tt.addptr %12, %2 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %14 = tt.splat %arg3 : i32 -> tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %15 = arith.muli %7, %14 : tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %16 = tt.broadcast %13 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>> -> tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %17 = tt.broadcast %15 : tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %18 = ttg.convert_layout %17 : tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %19 = tt.addptr %16, %18 : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   %20 = tt.load %11, %cst, %cst_0 : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   tt.store %19, %20, %cst : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288   tt.return
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288 }
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294 Parent block not live, skipping op: tt.func @transpose(%arg0: !tt.ptr<f32> {tt.divisibility = 16 : i32}, %arg1: i32 {tt.divisibility = 16 : i32}, %arg2: !tt.ptr<f32> {tt.divisibility = 16 : i32}, %arg3: i32 {tt.divisibility = 16 : i32}) {
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %cst = arith.constant dense<true> : tensor<64x64xi1, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %cst_0 = arith.constant dense<0.000000e+00> : tensor<64x64xf32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %0 = tt.make_range {end = 64 : i32, start = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 1, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %1 = tt.make_range {end = 64 : i32, start = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 0, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %2 = tt.expand_dims %0 {axis = 1 : i32} : tensor<64xi32, #ttg.slice<{dim = 1, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>}>> -> tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %3 = tt.splat %arg1 : i32 -> tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %4 = arith.muli %2, %3 : tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %5 = tt.splat %arg0 : !tt.ptr<f32> -> tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %6 = tt.addptr %5, %4 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %7 = tt.expand_dims %1 {axis = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 0, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>}>> -> tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %8 = tt.broadcast %6 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>> -> tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %9 = tt.broadcast %7 : tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %10 = ttg.convert_layout %9 : tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %11 = tt.addptr %8, %10 : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %12 = tt.splat %arg2 : !tt.ptr<f32> -> tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %13 = tt.addptr %12, %2 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %14 = tt.splat %arg3 : i32 -> tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %15 = arith.muli %7, %14 : tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %16 = tt.broadcast %13 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>> -> tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %17 = tt.broadcast %15 : tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %18 = ttg.convert_layout %17 : tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %19 = tt.addptr %16, %18 : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   %20 = tt.load %11, %cst, %cst_0 : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   tt.store %19, %20, %cst : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294   tt.return
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:294 }
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:249 [init] Recursing into region of op: tt.func
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: arith.constant at 0x625f41942700
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: arith.constant at 0x625f41942700
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: arith.constant at 0x625f41942700
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: arith.constant at 0x625f41977510
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: arith.constant at 0x625f41977510
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: arith.constant at 0x625f41977510
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.make_range at 0x625f41977e80
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.make_range at 0x625f41977e80
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.make_range at 0x625f41977e80
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.make_range at 0x625f41977f50
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.make_range at 0x625f41977f50
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.make_range at 0x625f41977f50
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.expand_dims at 0x625f41978920
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.expand_dims at 0x625f41978920
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.expand_dims at 0x625f41978920
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.splat at 0x625f41978e90
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.splat at 0x625f41978e90
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.splat at 0x625f41978e90
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: arith.muli at 0x625f41978f80
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: arith.muli at 0x625f41978f80
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: arith.muli at 0x625f41978f80
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.splat at 0x625f41979990
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.splat at 0x625f41979990
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.splat at 0x625f41979990
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.addptr at 0x625f41979a80
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.addptr at 0x625f41979a80
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.addptr at 0x625f41979a80
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.expand_dims at 0x625f41974920
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.expand_dims at 0x625f41974920
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.expand_dims at 0x625f41974920
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.broadcast at 0x625f4197a2c0
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.broadcast at 0x625f4197a2c0
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.broadcast at 0x625f4197a2c0
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.broadcast at 0x625f4197a390
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.broadcast at 0x625f4197a390
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.broadcast at 0x625f4197a390
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: ttg.convert_layout at 0x625f4197a480
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: ttg.convert_layout at 0x625f4197a480
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: ttg.convert_layout at 0x625f4197a480
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.addptr at 0x625f4197a570
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.addptr at 0x625f4197a570
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.addptr at 0x625f4197a570
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.splat at 0x625f4197a680
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.splat at 0x625f4197a680
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.splat at 0x625f4197a680
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.addptr at 0x625f4197a770
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.addptr at 0x625f4197a770
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.addptr at 0x625f4197a770
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.splat at 0x625f4197a880
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.splat at 0x625f4197a880
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.splat at 0x625f4197a880
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: arith.muli at 0x625f4197adf0
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: arith.muli at 0x625f4197adf0
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: arith.muli at 0x625f4197adf0
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.broadcast at 0x625f4197af00
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.broadcast at 0x625f4197af00
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.broadcast at 0x625f4197af00
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.broadcast at 0x625f4197aff0
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.broadcast at 0x625f4197aff0
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.broadcast at 0x625f4197aff0
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: ttg.convert_layout at 0x625f4197b0e0
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: ttg.convert_layout at 0x625f4197b0e0
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: ttg.convert_layout at 0x625f4197b0e0
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.addptr at 0x625f41979d10
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.addptr at 0x625f41979d10
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.addptr at 0x625f41979d10
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.load at 0x625f4193dc80
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.load at 0x625f4193dc80
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.load at 0x625f4193dc80
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.store at 0x625f4197bc80
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.store at 0x625f4197bc80
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.store at 0x625f4197bc80
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:251 [init] Recursing into nested op: tt.return at 0x625f41950050
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:232 [init] Entering initializeRecursively for op: tt.return at 0x625f41950050
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:237 [init] Visiting op with control-flow semantics: tt.return
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:284 Visiting program point: 0x625f419877e8 <after operation>:tt.return
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:288 Visiting operation: tt.return
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:337 Visiting callable terminator: tt.return
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:508 visitCallableTerminator: tt.return
+[dataflow:1] DataFlowFramework.cpp:47 Creating dependency between mlir::dataflow::PredecessorState of <after operation>:tt.func @transpose(%arg0: !tt.ptr<f32> {tt.divisibility = 16 : i32}, %arg1: i32 {tt.divisibility = 16 : i32}, %arg2: !tt.ptr<f32> {tt.divisibility = 16 : i32}, %arg3: i32 {tt.divisibility = 16 : i32}) {...}
+[dataflow:1] DataFlowFramework.cpp:47 and mlir::dataflow::PredecessorState on 0x625f419877e8
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.return at 0x625f41950050
+[dead-code-analysis:1] DeadCodeAnalysis.cpp:257 [init] Finished initializeRecursively for op: tt.func at 0x625f41979db0
+[dataflow:1] DataFlowFramework.cpp:118 Priming analysis: mlir::(anonymous namespace)::ConstantAnalysis
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %cst = arith.constant dense<true> : tensor<64x64xi1, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: dense<true> : tensor<64x64xi1, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %cst_0 = arith.constant dense<0.000000e+00> : tensor<64x64xf32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: dense<0.000000e+00> : tensor<64x64xf32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %0 = tt.make_range {end = 64 : i32, start = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 1, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %1 = tt.make_range {end = 64 : i32, start = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 0, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %2 = tt.expand_dims %0 {axis = 1 : i32} : tensor<64xi32, #ttg.slice<{dim = 1, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>}>> -> tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %3 = tt.splat %arg1 : i32 -> tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %4 = arith.muli %2, %3 : tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %5 = tt.splat %arg0 : !tt.ptr<f32> -> tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %6 = tt.addptr %5, %4 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %7 = tt.expand_dims %1 {axis = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 0, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>}>> -> tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %8 = tt.broadcast %6 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>> -> tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %9 = tt.broadcast %7 : tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %10 = ttg.convert_layout %9 : tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %11 = tt.addptr %8, %10 : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %12 = tt.splat %arg2 : !tt.ptr<f32> -> tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %13 = tt.addptr %12, %2 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %14 = tt.splat %arg3 : i32 -> tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %15 = arith.muli %7, %14 : tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %16 = tt.broadcast %13 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>> -> tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %17 = tt.broadcast %15 : tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %18 = ttg.convert_layout %17 : tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %19 = tt.addptr %16, %18 : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of %20 = tt.load %11, %cst, %cst_0 : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of <block argument> of type '!tt.ptr<f32>' at index: 0
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of <block argument> of type 'i32' at index: 1
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of <block argument> of type '!tt.ptr<f32>' at index: 2
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::dataflow::ConstantValue> of <block argument> of type 'i32' at index: 3
+[dataflow:1] DataFlowFramework.cpp:144 Value: <UNKNOWN>
+[dataflow:1] DataFlowFramework.cpp:118 Priming analysis: mlir::triton::(anonymous namespace)::AxisInfoAnalysis
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of <block argument> of type '!tt.ptr<f32>' at index: 0
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1], divisibility = [16], constancy = [1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of <block argument> of type 'i32' at index: 1
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1], divisibility = [16], constancy = [1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of <block argument> of type '!tt.ptr<f32>' at index: 2
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1], divisibility = [16], constancy = [1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of <block argument> of type 'i32' at index: 3
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1], divisibility = [16], constancy = [1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:47 Creating dependency between mlir::dataflow::PredecessorState of <after operation>:tt.func @transpose(%arg0: !tt.ptr<f32> {tt.divisibility = 16 : i32}, %arg1: i32 {tt.divisibility = 16 : i32}, %arg2: !tt.ptr<f32> {tt.divisibility = 16 : i32}, %arg3: i32 {tt.divisibility = 16 : i32}) {...}
+[dataflow:1] DataFlowFramework.cpp:47 and mlir::dataflow::PredecessorState on 0x625f419877a0
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %cst = arith.constant dense<true> : tensor<64x64xi1, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1, 1], divisibility = [1, 1], constancy = [64, 64], constant_value = 1
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %cst_0 = arith.constant dense<0.000000e+00> : tensor<64x64xf32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1, 1], divisibility = [1, 1], constancy = [1, 1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %0 = tt.make_range {end = 64 : i32, start = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 1, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [64], divisibility = [1073741824], constancy = [1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %1 = tt.make_range {end = 64 : i32, start = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 0, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [64], divisibility = [1073741824], constancy = [1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %2 = tt.expand_dims %0 {axis = 1 : i32} : tensor<64xi32, #ttg.slice<{dim = 1, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>}>> -> tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [64, 1], divisibility = [1073741824, 1], constancy = [1, 1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %3 = tt.splat %arg1 : i32 -> tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1, 1], divisibility = [16, 16], constancy = [64, 1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %4 = arith.muli %2, %3 : tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1, 1], divisibility = [16, 16], constancy = [1, 1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %5 = tt.splat %arg0 : !tt.ptr<f32> -> tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1, 1], divisibility = [16, 16], constancy = [64, 1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %6 = tt.addptr %5, %4 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1, 1], divisibility = [16, 16], constancy = [1, 1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %7 = tt.expand_dims %1 {axis = 0 : i32} : tensor<64xi32, #ttg.slice<{dim = 0, parent = #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>}>> -> tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1, 64], divisibility = [1, 1073741824], constancy = [1, 1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %8 = tt.broadcast %6 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>> -> tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1, 1], divisibility = [16, 16], constancy = [1, 64], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %9 = tt.broadcast %7 : tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1, 64], divisibility = [1, 1073741824], constancy = [64, 1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %10 = ttg.convert_layout %9 : tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1, 64], divisibility = [1, 1073741824], constancy = [64, 1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %11 = tt.addptr %8, %10 : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1, 64], divisibility = [4, 16], constancy = [1, 1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %12 = tt.splat %arg2 : !tt.ptr<f32> -> tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1, 1], divisibility = [16, 16], constancy = [64, 1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %13 = tt.addptr %12, %2 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x1xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [64, 1], divisibility = [16, 4], constancy = [1, 1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %14 = tt.splat %arg3 : i32 -> tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1, 1], divisibility = [16, 16], constancy = [1, 64], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %15 = arith.muli %7, %14 : tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1, 1], divisibility = [16, 16], constancy = [1, 1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %16 = tt.broadcast %13 : tensor<64x1x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>> -> tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [64, 1], divisibility = [16, 4], constancy = [1, 64], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %17 = tt.broadcast %15 : tensor<1x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1, 1], divisibility = [16, 16], constancy = [64, 1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %18 = ttg.convert_layout %17 : tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [1, 32], warpsPerCTA = [1, 4], order = [0, 1]}>> -> tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1, 1], divisibility = [16, 16], constancy = [64, 1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %19 = tt.addptr %16, %18 : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>, tensor<64x64xi32, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [64, 1], divisibility = [16, 4], constancy = [1, 1], constant_value = <none>
+[dataflow:1] DataFlowFramework.cpp:144 Propagating update to mlir::dataflow::Lattice<mlir::triton::AxisInfo> of %20 = tt.load %11, %cst, %cst_0 : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[dataflow:1] DataFlowFramework.cpp:144 Value: contiguity = [1, 1], divisibility = [1, 1], constancy = [1, 1], constant_value = <none>
+[tritongpu-coalesce]: Considering op: %20 = tt.load %11, %cst, %cst_0 : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[tritongpu-coalesce]: axis info of pointer: contiguity = [1, 64], divisibility = [4, 16], constancy = [1, 1], constant_value = <none>
+[tritongpu-coalesce]: order=[1, 0]
+[tritongpu-coalesce]: shapePerCTA=[64, 64]
+[ttg-utility]: elemNumBytes: 4, divisibility: 16, contig: 64, alignment: 4
+[tritongpu-coalesce]: perThread for op: 4
+[tritongpu-coalesce]: perThread: 4
+[tritongpu-coalesce]: Considering op: tt.store %19, %20, %cst : tensor<64x64x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1, 1], threadsPerWarp = [32, 1], warpsPerCTA = [4, 1], order = [0, 1]}>>
+[tritongpu-coalesce]: axis info of pointer: contiguity = [64, 1], divisibility = [16, 4], constancy = [1, 1], constant_value = <none>
+[tritongpu-coalesce]: order=[0, 1]
+[tritongpu-coalesce]: shapePerCTA=[64, 64]
+[ttg-utility]: elemNumBytes: 4, divisibility: 16, contig: 64, alignment: 4
+[tritongpu-coalesce]: perThread for op: 4
+[tritongpu-coalesce]: perThread: 4
+[ttg-utility]: elemNumBytes: 4, divisibility: 16, contig: 64, alignment: 4
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1)
+   register=2 -> (2)
+where out dims are: [dim1 (size 4)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1)
+   register=2 -> (2)
+where out dims are: [dim1 (size 4)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+where out dims are: [dim1 (size 4), dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (1)
+   lane=2 -> (2)
+   lane=4 -> (4)
+   lane=8 -> (8)
+where out dims are: [dim1 (size 16)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (1)
+   lane=2 -> (2)
+   lane=4 -> (4)
+   lane=8 -> (8)
+where out dims are: [dim1 (size 16)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (1)
+where out dims are: [dim0 (size 2)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (0, 1)
+where out dims are: [dim1 (size 16), dim0 (size 2)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+ - lane=1 -> (4, 0)
+   lane=2 -> (8, 0)
+   lane=4 -> (16, 0)
+   lane=8 -> (32, 0)
+   lane=16 -> (0, 1)
+where out dims are: [dim1 (size 64), dim0 (size 2)]
+[linear_layout]: checkInvariants: 
+ - warp is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - warp is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - warp=1 -> (1)
+   warp=2 -> (2)
+where out dims are: [dim0 (size 4)]
+[linear_layout]: checkInvariants: 
+ - warp=1 -> (0, 1)
+   warp=2 -> (0, 2)
+where out dims are: [dim1 (size 1), dim0 (size 4)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+ - lane=1 -> (4, 0)
+   lane=2 -> (8, 0)
+   lane=4 -> (16, 0)
+   lane=8 -> (32, 0)
+   lane=16 -> (0, 1)
+ - warp=1 -> (0, 2)
+   warp=2 -> (0, 4)
+where out dims are: [dim1 (size 64), dim0 (size 8)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1), dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1), dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+ - lane=1 -> (4, 0)
+   lane=2 -> (8, 0)
+   lane=4 -> (16, 0)
+   lane=8 -> (32, 0)
+   lane=16 -> (0, 1)
+ - warp=1 -> (0, 2)
+   warp=2 -> (0, 4)
+where out dims are: [dim1 (size 64), dim0 (size 8)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1)
+   register=2 -> (2)
+   register=4 -> (4)
+where out dims are: [dim0 (size 8)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+   register=4 -> (0, 8)
+   register=8 -> (0, 16)
+   register=16 -> (0, 32)
+ - lane=1 -> (4, 0)
+   lane=2 -> (8, 0)
+   lane=4 -> (16, 0)
+   lane=8 -> (32, 0)
+   lane=16 -> (0, 1)
+ - warp=1 -> (0, 2)
+   warp=2 -> (0, 4)
+where out dims are: [dim1 (size 64), dim0 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+   register=4 -> (0, 8)
+   register=8 -> (0, 16)
+   register=16 -> (0, 32)
+ - lane=1 -> (4, 0)
+   lane=2 -> (8, 0)
+   lane=4 -> (16, 0)
+   lane=8 -> (32, 0)
+   lane=16 -> (0, 1)
+ - warp=1 -> (0, 2)
+   warp=2 -> (0, 4)
+where out dims are: [dim1 (size 64), dim0 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+   register=4 -> (0, 8)
+   register=8 -> (0, 16)
+   register=16 -> (0, 32)
+ - lane=1 -> (4, 0)
+   lane=2 -> (8, 0)
+   lane=4 -> (16, 0)
+   lane=8 -> (32, 0)
+   lane=16 -> (0, 1)
+ - warp=1 -> (0, 2)
+   warp=2 -> (0, 4)
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 64), dim0 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (0, 1)
+   register=2 -> (0, 2)
+   register=4 -> (8, 0)
+   register=8 -> (16, 0)
+   register=16 -> (32, 0)
+ - lane=1 -> (0, 4)
+   lane=2 -> (0, 8)
+   lane=4 -> (0, 16)
+   lane=8 -> (0, 32)
+   lane=16 -> (1, 0)
+ - warp=1 -> (2, 0)
+   warp=2 -> (4, 0)
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 64), dim1 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1)
+   register=2 -> (2)
+where out dims are: [dim0 (size 4)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1)
+   register=2 -> (2)
+where out dims are: [dim0 (size 4)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+where out dims are: [dim0 (size 4), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (1)
+   lane=2 -> (2)
+   lane=4 -> (4)
+   lane=8 -> (8)
+where out dims are: [dim0 (size 16)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (1)
+   lane=2 -> (2)
+   lane=4 -> (4)
+   lane=8 -> (8)
+where out dims are: [dim0 (size 16)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (1)
+where out dims are: [dim1 (size 2)]
+[linear_layout]: checkInvariants: 
+ - lane=1 -> (1, 0)
+   lane=2 -> (2, 0)
+   lane=4 -> (4, 0)
+   lane=8 -> (8, 0)
+   lane=16 -> (0, 1)
+where out dims are: [dim0 (size 16), dim1 (size 2)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+ - lane=1 -> (4, 0)
+   lane=2 -> (8, 0)
+   lane=4 -> (16, 0)
+   lane=8 -> (32, 0)
+   lane=16 -> (0, 1)
+where out dims are: [dim0 (size 64), dim1 (size 2)]
+[linear_layout]: checkInvariants: 
+ - warp is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - warp is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - warp=1 -> (1)
+   warp=2 -> (2)
+where out dims are: [dim1 (size 4)]
+[linear_layout]: checkInvariants: 
+ - warp=1 -> (0, 1)
+   warp=2 -> (0, 2)
+where out dims are: [dim0 (size 1), dim1 (size 4)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+ - lane=1 -> (4, 0)
+   lane=2 -> (8, 0)
+   lane=4 -> (16, 0)
+   lane=8 -> (32, 0)
+   lane=16 -> (0, 1)
+ - warp=1 -> (0, 2)
+   warp=2 -> (0, 4)
+where out dims are: [dim0 (size 64), dim1 (size 8)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim1 (size 1), dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 1), dim1 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register is a size 1 dimension
+where out dims are: [dim0 (size 1)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+ - lane=1 -> (4, 0)
+   lane=2 -> (8, 0)
+   lane=4 -> (16, 0)
+   lane=8 -> (32, 0)
+   lane=16 -> (0, 1)
+ - warp=1 -> (0, 2)
+   warp=2 -> (0, 4)
+where out dims are: [dim0 (size 64), dim1 (size 8)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1)
+   register=2 -> (2)
+   register=4 -> (4)
+where out dims are: [dim1 (size 8)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+   register=4 -> (0, 8)
+   register=8 -> (0, 16)
+   register=16 -> (0, 32)
+ - lane=1 -> (4, 0)
+   lane=2 -> (8, 0)
+   lane=4 -> (16, 0)
+   lane=8 -> (32, 0)
+   lane=16 -> (0, 1)
+ - warp=1 -> (0, 2)
+   warp=2 -> (0, 4)
+where out dims are: [dim0 (size 64), dim1 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+   register=4 -> (0, 8)
+   register=8 -> (0, 16)
+   register=16 -> (0, 32)
+ - lane=1 -> (4, 0)
+   lane=2 -> (8, 0)
+   lane=4 -> (16, 0)
+   lane=8 -> (32, 0)
+   lane=16 -> (0, 1)
+ - warp=1 -> (0, 2)
+   warp=2 -> (0, 4)
+where out dims are: [dim0 (size 64), dim1 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+   register=4 -> (0, 8)
+   register=8 -> (0, 16)
+   register=16 -> (0, 32)
+ - lane=1 -> (4, 0)
+   lane=2 -> (8, 0)
+   lane=4 -> (16, 0)
+   lane=8 -> (32, 0)
+   lane=16 -> (0, 1)
+ - warp=1 -> (0, 2)
+   warp=2 -> (0, 4)
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 64), dim1 (size 64)]
+[linear_layout]: checkInvariants: 
+ - register=1 -> (1, 0)
+   register=2 -> (2, 0)
+   register=4 -> (0, 8)
+   register=8 -> (0, 16)
+   register=16 -> (0, 32)
+ - lane=1 -> (4, 0)
+   lane=2 -> (8, 0)
+   lane=4 -> (16, 0)
+   lane=8 -> (32, 0)
+   lane=16 -> (0, 1)
+ - warp=1 -> (0, 2)
+   warp=2 -> (0, 4)
+ - block is a size 1 dimension
+where out dims are: [dim0 (size 64), dim1 (size 64)]
