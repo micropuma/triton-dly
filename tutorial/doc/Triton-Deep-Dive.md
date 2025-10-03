@@ -524,6 +524,12 @@ unsigned getNumElementsPerThread(Operation *op, SmallVector<unsigned> order,
 }
 ```
 
+#### Pipeline 
+Mainly refer to [TritonGPU pipeline blog](https://www.zhihu.com/search?type=content&q=triton%20pipeline) and [Triton Pipeline talk](https://www.youtube.com/watch?v=PAsL680eWUw)。Pipeline is a crucial feature in GPU architecture, as it manages to overlap load overhead and computation. Targeting different arch(Ampere/Hopper), Triton's pipeline pass is different.  
+
+
+
+
 ## Chapter5: Python Binding Layer
 refer to [python/src/passes.cpp](https://github.com/triton-lang/triton/blob/main/python/src/passes.cc#L20-L128) and [python/src/passes.h](https://github.com/triton-lang/triton/blob/main/python/src/passes.h#L1-L43)
 
