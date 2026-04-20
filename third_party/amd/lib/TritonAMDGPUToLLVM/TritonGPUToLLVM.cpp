@@ -4,6 +4,7 @@
 #include "PatternTritonGPUOpToLLVM.h"
 #include "TargetInfo.h"
 #include "TritonAMDGPUToLLVM/MembarUtility.h"
+#include "TritonAMDGPUToLLVM/TypeConverter.h"
 #include "mlir/Conversion/ArithToLLVM/ArithToLLVM.h"
 #include "mlir/Conversion/ControlFlowToLLVM/ControlFlowToLLVM.h"
 #include "mlir/Conversion/GPUToNVVM/GPUToNVVMPass.h"
@@ -16,6 +17,7 @@
 #include "mlir/Dialect/LLVMIR/NVVMDialect.h"
 #include "mlir/Dialect/LLVMIR/ROCDLDialect.h"
 #include "mlir/Pass/Pass.h"
+#include "third_party/amd/include/Analysis/AMDGPUAllocation.h"
 #include "third_party/amd/include/Analysis/AxisInfoExt.h"
 #include "third_party/amd/include/Dialect/TritonAMDGPU/IR/Dialect.h"
 #include "triton/Analysis/Allocation.h"
@@ -25,6 +27,7 @@
 #include "triton/Conversion/TritonGPUToLLVM/Utility.h"
 #include "triton/Dialect/Triton/IR/Dialect.h"
 #include "triton/Dialect/TritonGPU/IR/Dialect.h"
+#include "triton/Dialect/TritonInstrument/IR/Dialect.h"
 #include "triton/Dialect/TritonNvidiaGPU/IR/Dialect.h"
 
 namespace mlir::triton {
@@ -57,9 +60,15 @@ public:
     addIllegalDialect<triton::TritonDialect>();
     addIllegalDialect<triton::gpu::TritonGPUDialect>();
     addIllegalDialect<triton::nvidia_gpu::TritonNvidiaGPUDialect>();
+    addIllegalDialect<triton::instrument::TritonInstrumentDialect>();
     addIllegalDialect<mlir::gpu::GPUDialect>();
     addLegalOp<mlir::UnrealizedConversionCastOp>();
     addLegalOp<triton::amdgpu::InstructionSchedHint>();
+    // Warp specialization is lowered later.
+    addLegalOp<triton::gpu::WarpSpecializeOp>();
+    addLegalOp<triton::gpu::WarpYieldOp>();
+    addLegalOp<triton::gpu::WarpSpecializePartitionsOp>();
+    addLegalOp<triton::gpu::WarpReturnOp>();
   }
 };
 
@@ -90,16 +99,16 @@ struct ConvertTritonAMDGPUToLLVM
     mlir::LowerToLLVMOptions option(context);
     option.overrideIndexBitwidth(32);
 
-    TritonGPUToLLVMTypeConverter typeConverter(context, option, targetInfo);
+    TritonAMDGPUToLLVMTypeConverter typeConverter(context, option, targetInfo);
     TritonLLVMConversionTarget convTarget(*context);
 
-    int numCTAs = triton::gpu::TritonGPUDialect::getNumCTAs(mod);
-    int threadsPerWarp = triton::gpu::TritonGPUDialect::getThreadsPerWarp(mod);
-
     // Allocate shared memory and set barrier
-    ModuleAllocation allocation(mod);
+    ModuleAllocation allocation(mod, AMD::AMDAllocationAnalysisScratchSizeFn,
+                                targetInfo.getSharedMemoryPartitionSize());
 
-    AMD::annotateLocalLoadsSyncedViaAsyncWait(mod);
+    if (targetInfo.requiresAliasInfoForAsyncOps())
+      AMD::annotateLocalLoadsSyncedViaAsyncWait(mod);
+
     ModuleMembarAnalysis membarPass(&allocation,
                                     mlir::triton::AMD::membarFilter);
     membarPass.run();
@@ -108,7 +117,7 @@ struct ConvertTritonAMDGPUToLLVM
     {
       TritonLLVMFunctionConversionTarget funcTarget(*context);
       RewritePatternSet funcPatterns(context);
-      mlir::triton::populateFuncOpConversionPattern(
+      mlir::triton::AMD::populateFuncOpConversionPattern(
           typeConverter, funcPatterns, targetInfo, patternBenefitDefault);
       mlir::cf::populateControlFlowToLLVMConversionPatterns(typeConverter,
                                                             funcPatterns);
@@ -138,7 +147,6 @@ struct ConvertTritonAMDGPUToLLVM
     // currently implemented via inline asm, and thus cannot be CSEed.
     // clusterCTAId will be emitted only when numCTAs is larger than 1, and
     // other values will be DCEed if not used hereafter.
-    OpBuilder::InsertPoint indexInsertPoint;
 
     RewritePatternSet patterns(context);
     int commonBenefit = patternBenefitPrioritizeOverLLVMConversions;
@@ -174,7 +182,10 @@ struct ConvertTritonAMDGPUToLLVM
                                              targetInfo, AMDBenefit);
     AMD::populateLoadStoreOpToLLVMPatterns(typeConverter, targetInfo, patterns,
                                            axisInfoAnalysis, AMDBenefit);
-    AMD::populateMaskedOpsToLLVMPatterns(patterns);
+    AMD::populateMaskedOpsToLLVMPatterns(patterns, targetInfo);
+    AMD::populateBarrierOpToLLVMPatterns(typeConverter, patterns, AMDBenefit);
+    AMD::populateTensorPtrOpsToLLVMPatterns(typeConverter, patterns,
+                                            AMDBenefit);
 
     populatePatterns7(mlir::triton::populateReduceOpToLLVMPatterns,
                       commonBenefit);
@@ -182,6 +193,8 @@ struct ConvertTritonAMDGPUToLLVM
                       commonBenefit);
     populatePatterns5(mlir::triton::populateViewOpToLLVMPatterns,
                       commonBenefit);
+    AMD::populateHistogramOpToLLVMPatterns(typeConverter, patterns, targetInfo,
+                                           AMDBenefit);
     populatePatterns7(mlir::triton::populateHistogramOpToLLVMPatterns,
                       commonBenefit);
     populatePatterns7(mlir::triton::populateGatherOpToLLVMPatterns,
@@ -201,10 +214,8 @@ struct ConvertTritonAMDGPUToLLVM
                                               targetInfo, commonBenefit);
     AMD::populateSPMDOpToLLVMPattern(typeConverter, patterns, AMDBenefit);
 
-    mlir::triton::AMD::populateTritonAMDGPUToLLVMPatterns(typeConverter,
-                                                          patterns, AMDBenefit);
-    mlir::triton::AMD::populateUpcastMXFPToLLVMPatterns(typeConverter, patterns,
-                                                        targetInfo, AMDBenefit);
+    mlir::triton::AMD::populateTritonAMDGPUToLLVMPatterns(
+        typeConverter, patterns, targetInfo, AMDBenefit);
     mlir::triton::AMD::populateFp4ToFpToLLVMPatterns(typeConverter, patterns,
                                                      targetInfo, AMDBenefit);
     // TODO(thomas): this should probably be done in a separate step to not
@@ -212,6 +223,9 @@ struct ConvertTritonAMDGPUToLLVM
     // to help convert scalar expression to LLVM.
     mlir::arith::populateArithToLLVMConversionPatterns(typeConverter, patterns);
     mlir::populateMathToLLVMConversionPatterns(typeConverter, patterns);
+
+    mlir::triton::AMD::populateWarpIdOpToLLVMPattern(typeConverter, targetInfo,
+                                                     patterns, commonBenefit);
 
     FailureOr<mlir::amdgpu::Chipset> maybeChipset =
         mlir::amdgpu::Chipset::parse(this->arch);
@@ -230,18 +244,24 @@ struct ConvertTritonAMDGPUToLLVM
                                                targetInfo, commonBenefit);
     mlir::ub::populateUBToLLVMConversionPatterns(typeConverter, patterns);
 
+    mlir::triton::populateInstrumentationToLLVMPatterns(typeConverter, patterns,
+                                                        targetInfo);
+
     if (failed(applyPartialConversion(mod, convTarget, std::move(patterns)))) {
       return signalPassFailure();
     }
 
+    AMD::adjustModeRegister(mod, targetInfo);
     fixUpLoopAnnotation(mod);
+
+    // Ensure warp group code is isolated from above.
+    makeAllWarpGroupsIsolatedFromAbove(mod);
   }
 
 private:
   void initSharedMemory(LLVMTypeConverter &typeConverter) {
     ModuleOp mod = getOperation();
     OpBuilder b(mod.getBodyRegion());
-    auto ctx = mod.getContext();
     auto loc = mod.getLoc();
     auto elemTy = typeConverter.convertType(b.getIntegerType(8));
     // Set array size 0 and external linkage indicates that we use dynamic
@@ -250,11 +270,11 @@ private:
     // Ask for 16B alignment on global_smem because that's the largest we should
     // ever need (4xi32).
     auto arrayTy = LLVM::LLVMArrayType::get(elemTy, 0);
-    auto global = b.create<LLVM::GlobalOp>(
-        loc, arrayTy, /*isConstant=*/false, LLVM::Linkage::External,
+    auto global = LLVM::GlobalOp::create(
+        b, loc, arrayTy, /*isConstant=*/false, LLVM::Linkage::External,
         "global_smem", /*value=*/Attribute(), /*alignment=*/16,
         // Add ROCm support.
-        static_cast<unsigned>(NVVM::NVVMMemorySpace::kSharedMemorySpace));
+        static_cast<unsigned>(NVVM::NVVMMemorySpace::Shared));
   }
 };
 

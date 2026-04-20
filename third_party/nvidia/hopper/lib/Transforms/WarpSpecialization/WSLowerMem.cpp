@@ -52,7 +52,6 @@ createAsyncCopy(const DenseMap<Channel *, Value> &bufferMap, Channel *c,
     return {nullptr, nullptr};
   // Get basic information from tensorType
   auto order = ttg::getOrderForMemory(tensorType);
-  auto CTALayout = ttg::getCTALayout(tensorType.getEncoding());
   auto elemType = tensorType.getElementType();
 
   // Get shape, layout and type of a slice
@@ -107,7 +106,6 @@ createLocalCopy(const DenseMap<Channel *, Value> &bufferMap, Channel *channel,
     return {nullptr, nullptr};
   // Get basic information from tensorType
   auto order = ttg::getOrderForMemory(tensorType);
-  auto CTALayout = ttg::getCTALayout(tensorType.getEncoding());
   auto elemType = tensorType.getElementType();
 
   // Get shape, layout and type of a slice
@@ -145,24 +143,6 @@ createLocalCopy(const DenseMap<Channel *, Value> &bufferMap, Channel *channel,
   return {copy, sharedLoad};
 }
 
-static Value createBufferView(OpBuilderWithAsyncTaskIds &builder, Value alloc,
-                              Value idx) {
-  assert(isa<triton::gpu::MemDescType>(alloc.getType()) &&
-         "Expected MemDescType");
-  auto allocDescType = cast<triton::gpu::MemDescType>(alloc.getType());
-  SmallVector<int64_t> shape;
-  assert(allocDescType.getShape().size() > 1 &&
-         "Expected multi-dimensional memdesc (e.g., Nx...) for subview");
-  shape.insert(shape.end(), allocDescType.getShape().begin() + 1,
-               allocDescType.getShape().end());
-  auto viewDescType = triton::gpu::MemDescType::get(
-      shape, allocDescType.getElementType(), allocDescType.getEncoding(),
-      allocDescType.getMemorySpace(), allocDescType.getMutableMemory(),
-      /*allocShape=*/allocDescType.getAllocShape());
-  return builder.create<triton::gpu::MemDescIndexOp>(alloc.getLoc(),
-                                                     viewDescType, alloc, idx);
-}
-
 static int getTMALoadSize(tt::DescriptorLoadOp &tmaLoad) {
   auto tensorTy = cast<RankedTensorType>(tmaLoad->getResult(0).getType());
   int loadSize = product(tensorTy.getShape());
@@ -177,7 +157,6 @@ Value getBufferForPipelineStage(OpBuilderWithAsyncTaskIds &builder,
   assert(tensorType);
 
   auto order = ttg::getOrderForMemory(tensorType);
-  auto CTALayout = ttg::getCTALayout(tensorType.getEncoding());
   auto elemType = tensorType.getElementType();
 
   // Get shape, layout and type of a slice
@@ -230,7 +209,6 @@ Operation *optimizeTMALoads(OpBuilderWithAsyncTaskIds &builder,
     builder.setInsertionPoint(tmaLoad);
     auto pipelineBuffer = getBufferForPipelineStage(builder, tmaLoad.getType(),
                                                     buffer, bufferIdx, true);
-    // FIXME: translateTMAIndices
     copy = builder.createWithAsyncTaskIds<ttng::AsyncTMACopyGlobalToLocalOp>(
         loc, tmaLoad.getDesc(), tmaLoad.getIndices(), prodBarrier,
         pipelineBuffer, pred);
@@ -253,7 +231,6 @@ Operation *optimizeTMALoads(OpBuilderWithAsyncTaskIds &builder,
     auto sharedLoad = builder.createWithAsyncTaskIds<ttg::LocalLoadOp>(
         loc, tmaLoad.getType(), pipelineBuffer);
 
-    Value loadResult = tmaLoad.getResult();
     tmaLoad.getResult().replaceAllUsesWith(sharedLoad.getResult());
     tmaLoad.erase();
   }

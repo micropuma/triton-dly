@@ -5,8 +5,8 @@
 #include "triton/Dialect/Triton/IR/Types.h"
 #include "triton/Dialect/TritonGPU/IR/Attributes.h"
 #include "triton/Dialect/TritonGPU/IR/Types.h"
+#include "triton/Dialect/TritonGPU/Transforms/Utility.h"
 #include "triton/Dialect/TritonNvidiaGPU/IR/Dialect.h"
-#include "triton/Dialect/TritonNvidiaGPU/Transforms/Utility.h"
 #include "llvm/ADT/STLExtras.h"
 #include "llvm/ADT/SmallVectorExtras.h"
 
@@ -133,16 +133,12 @@ LogicalResult WarpGroupOp::verify() {
 }
 
 ParseResult WarpGroupOp::parse(OpAsmParser &p, OperationState &result) {
-  auto ctx = p.getBuilder().getContext();
-
-  SMLoc operandLoc = p.getCurrentLocation();
   if (p.parseOptionalAttrDictWithKeyword(result.attributes))
     return failure();
 
   SmallVector<int32_t> partitionNumWarps;
   while (succeeded(p.parseOptionalKeyword(
       ("partition" + Twine(partitionNumWarps.size()).str())))) {
-    SMLoc regionLoc = p.getCurrentLocation();
     if (p.parseKeyword("num_warps") || p.parseLParen() ||
         p.parseInteger(partitionNumWarps.emplace_back()) || p.parseRParen() ||
         p.parseRegion(*result.addRegion()))

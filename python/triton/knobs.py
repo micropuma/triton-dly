@@ -196,7 +196,8 @@ class env_nvidia_tool(env_base[str, NvidiaTool]):
         binary += sysconfig.get_config_var("EXE")
         self.binary = binary
         self.default_path = os.path.join(os.path.dirname(__file__), "backends", "nvidia", "bin", binary)
-        super().__init__(f"TRITON_{binary.upper()}_PATH")
+        # Convert ptxas-blackwell to PTXAS_BLACKWELL, not PTXAS-BLACKWELL
+        super().__init__(f"TRITON_{binary.upper().replace('-', '_')}_PATH")
 
     def get(self) -> NvidiaTool:
         return self.transform(getenv(self.key))
@@ -364,7 +365,9 @@ class compilation_knobs(base_knobs):
     disable_line_info: env_bool = env_bool("TRITON_DISABLE_LINE_INFO")
     front_end_debugging: env_bool = env_bool("TRITON_FRONT_END_DEBUGGING")
     allow_non_constexpr_globals: env_bool = env_bool("TRITON_ALLOW_NON_CONSTEXPR_GLOBALS")
-    enable_experimental_consan: env_bool = env_bool("TRITON_ENABLE_EXPERIMENTAL_CONSAN")
+    # Instrumentation mode is checked on every run, which is expensive.
+    # We cache the value here to avoid the expensive check on every run.
+    instrumentation_mode: str = env_str("TRITON_INSTRUMENTATION_MODE", "").get()
     listener: Union[CompilationListener, None] = None
 
 
@@ -467,6 +470,9 @@ class runtime_knobs(base_knobs):
     kernel_load_start_hook: HookChain[InitHandleHook] = HookChain()
     kernel_load_end_hook: HookChain[InitHandleHook] = HookChain(reversed=True)
 
+    # hook to unload module when kernel is freed
+    kernel_unload_hook: HookChain[InitHandleHook] = HookChain()
+
     # Hook for inspecting compiled functions and modules
     jit_cache_hook: Optional[JITHook] = None
     # Hook to signal that a kernel is done compiling and inspect compiled function.
@@ -486,6 +492,7 @@ class nvidia_knobs(base_knobs):
     cuobjdump: env_nvidia_tool = env_nvidia_tool("cuobjdump")
     nvdisasm: env_nvidia_tool = env_nvidia_tool("nvdisasm")
     ptxas: env_nvidia_tool = env_nvidia_tool("ptxas")
+    ptxas_blackwell: env_nvidia_tool = env_nvidia_tool("ptxas-blackwell")
 
     dump_nvptx: env_bool = env_bool("NVPTX_ENABLE_DUMP")
     disable_ptxas_opt: env_bool = env_bool("DISABLE_PTXAS_OPT")
@@ -501,22 +508,55 @@ class amd_knobs(base_knobs):
     use_buffer_ops: env_bool = env_bool("AMDGCN_USE_BUFFER_OPS", True)
     # Note: This requires use_buffer_ops be true to have any effect
     use_buffer_atomics: env_bool = env_bool("AMDGCN_USE_BUFFER_ATOMICS", True)
+    # Note: This requires use_buffer_ops be true to have any effect
+    buffer_ops_analyze_small_tensor_range: env_bool = env_bool("AMDGCN_ANALYZE_SMALL_TENSOR_RANGE", False)
     dump_amdgcn: env_bool = env_bool("AMDGCN_ENABLE_DUMP")
     libhip_path: env_opt_str = env_opt_str("TRITON_LIBHIP_PATH")
 
     # We use strs so that we can have a default value based on other runtime info
     use_block_pingpong: env_opt_bool = env_opt_bool("TRITON_HIP_USE_BLOCK_PINGPONG")
     use_in_thread_transpose: env_opt_bool = env_opt_bool("TRITON_HIP_USE_IN_THREAD_TRANSPOSE")
+    use_async_copy: env_opt_bool = env_opt_bool("TRITON_HIP_USE_ASYNC_COPY")
 
-    use_async_copy: env_bool = env_bool("TRITON_HIP_USE_ASYNC_COPY")
     scalarize_packed_fops: env_bool = env_bool("AMDGCN_SCALARIZE_PACKED_FOPS")
+
+    # Path to dump MIR files for debugging/analysis
+    dump_mir: env_opt_str = env_opt_str("TRITON_DUMP_MIR")
+    # Path to externally-provided MIR files to use instead of generated ones
+    swap_mir: env_opt_str = env_opt_str("TRITON_SWAP_MIR")
+    # Enable machine instruction scheduler in MIR swap mode
+    swap_mir_enable_misched: env_bool = env_bool("TRITON_SWAP_MIR_ENABLE_MISCHED", False)
 
 
 class proton_knobs(base_knobs):
+    disable: env_bool = env_bool("TRITON_PROTON_DISABLE", False)
     cupti_lib_dir: env_str = env_str(
         "TRITON_CUPTI_LIB_PATH",
         str(pathlib.Path(__file__).parent.absolute() / "backends" / "nvidia" / "lib" / "cupti"))
+    cupti_lib_blackwell_dir: env_str = env_str(
+        "TRITON_CUPTI_LIB_BLACKWELL_PATH",
+        str(pathlib.Path(__file__).parent.absolute() / "backends" / "nvidia" / "lib" / "cupti-blackwell"))
+    profile_buffer_size: env_int = env_int("TRITON_PROFILE_BUFFER_SIZE", 64 * 1024 * 1024)
+    profile_metric_buffer_size: env_int = env_int("TRITON_PROFILE_METRIC_BUFFER_SIZE", 64 * 1024 * 1024)
     enable_nvtx: env_bool = env_bool("TRITON_ENABLE_NVTX", True)
+    # This knob is effective only on Blackwell+ GPUs.
+    #
+    # When enabled, the profiling session must start after CUDA driver
+    # initialization but before the CUDA context is created.
+    #
+    # You can ensure this in one of the following ways:
+    #
+    # 1) Use the `proton` CLI tool to launch the Python script, e.g.:
+    #    `TRITON_ENABLE_HW_TRACE=1 proton python my_script.py`
+    #
+    # 2) Call `proton.start()` immediately after importing Proton, e.g.:
+    #    ```python
+    #    import triton
+    #    import triton.profiler as proton
+    #    triton.knobs.proton.enable_hw_trace = True
+    #    proton.start(hook="triton")
+    #    ```
+    enable_hw_trace: env_bool = env_bool("TRITON_ENABLE_HW_TRACE", False)
 
 
 build = build_knobs()
@@ -533,3 +573,4 @@ proton = proton_knobs()
 
 def refresh_knobs():
     runtime.debug = env_bool("TRITON_DEBUG").get()
+    compilation.instrumentation_mode = env_str("TRITON_INSTRUMENTATION_MODE", "").get()

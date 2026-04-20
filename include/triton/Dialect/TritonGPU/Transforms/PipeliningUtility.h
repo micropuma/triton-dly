@@ -2,6 +2,7 @@
 #define TRITON_TRITONGPU_TRANSFORMS_PIPELINER_PIPELINING_UTILITY_H_
 
 #include "mlir/Dialect/SCF/IR/SCF.h"
+#include "triton/Dialect/Triton/IR/Dialect.h"
 #include "triton/Dialect/TritonGPU/IR/Dialect.h"
 #include <optional>
 #include <utility>
@@ -77,8 +78,7 @@ Operation *wrapInMaskOp(RewriterBase &rewriter, Operation *op, Value pred);
 
 // Utilize high level predication abstraction to perform optimizations before
 // lowering to predicated operations
-void resolveMaskOp(ModuleOp moduleOp,
-                   DenseSet<triton::gpu::MaskOp> &peeledMaskOps);
+void resolveMaskOp(ModuleOp moduleOp);
 
 // Return true if the given ForOp has the attribute
 // `tt.disallow_acc_multi_buffer` set to true.
@@ -124,7 +124,9 @@ Value createAlloc(Operation *insertBefore, RankedTensorType ty, Location loc,
                   gpu::SharedEncodingTrait sharedEnc, unsigned distance);
 
 // Determine if the operation is a TMA load.
-bool isTMALoad(Operation *op);
+inline bool isTMALoad(Operation *op) {
+  return isa<DescriptorLoadLikeOpInterface>(op);
+}
 
 // Determine if the operation can be lowered to an async load.
 bool canBeAsyncLoad(Operation *op);
@@ -182,6 +184,8 @@ getLastUseOfPipelinedOp(ArrayRef<Operation *> ops, scf::ForOp forOp,
                         CoarseSchedule &schedule,
                         std::function<bool(Operation *)> filterUse = nullptr);
 
+// Clean up attributes passing over schedules across stages in pipelining
+void removePipeliningAttributes(ModuleOp moduleOp);
 } // namespace triton
 } // namespace mlir
 
