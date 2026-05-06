@@ -1,0 +1,41 @@
+[tritongpu-coalesce]: Considering op: %7 = tt.load %6 : tensor<512x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [2], order = [0]}>>
+[tritongpu-coalesce]: axis info of pointer: contiguity = [512], divisibility = [16], constancy = [1], constant_value = <none>
+[tritongpu-coalesce]: order=[0]
+[tritongpu-coalesce]: multi-root-slice: insert to memAccessesSameOrder %10 = tt.load %9 : tensor<512x!tt.ptr<bf16>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [2], order = [0]}>>
+[tritongpu-coalesce]: multi-root-slice: insert to memAccessesSameOrder tt.store %14, %12 : tensor<512x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [2], order = [0]}>>
+[tritongpu-coalesce]: shapePerCTA=[512]
+[ttg-utility]: elemNumBytes: 4, divisibility: 16, contig: 512, maximum: 4, alignment: 4
+[tritongpu-coalesce]: perThread for op: 4
+[ttg-utility]: elemNumBytes: 2, divisibility: 16, contig: 512, maximum: 8, alignment: 8
+[tritongpu-coalesce]: perThread for opSameOrder: 8
+[ttg-utility]: elemNumBytes: 4, divisibility: 16, contig: 512, maximum: 4, alignment: 4
+[tritongpu-coalesce]: perThread for opSameOrder: 4
+[tritongpu-coalesce]: perThread: 8
+[tritongpu-coalesce]: Considering op: %10 = tt.load %9 : tensor<512x!tt.ptr<bf16>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [2], order = [0]}>>
+[tritongpu-coalesce]: axis info of pointer: contiguity = [512], divisibility = [16], constancy = [1], constant_value = <none>
+[tritongpu-coalesce]: order=[0]
+[tritongpu-coalesce]: multi-root-slice: insert to memAccessesSameOrder %7 = tt.load %6 : tensor<512x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [2], order = [0]}>>
+[tritongpu-coalesce]: multi-root-slice: insert to memAccessesSameOrder tt.store %14, %12 : tensor<512x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [2], order = [0]}>>
+[tritongpu-coalesce]: shapePerCTA=[512]
+[ttg-utility]: elemNumBytes: 2, divisibility: 16, contig: 512, maximum: 8, alignment: 8
+[tritongpu-coalesce]: perThread for op: 8
+[ttg-utility]: elemNumBytes: 4, divisibility: 16, contig: 512, maximum: 4, alignment: 4
+[tritongpu-coalesce]: perThread for opSameOrder: 4
+[ttg-utility]: elemNumBytes: 4, divisibility: 16, contig: 512, maximum: 4, alignment: 4
+[tritongpu-coalesce]: perThread for opSameOrder: 4
+[tritongpu-coalesce]: perThread: 8
+[tritongpu-coalesce]: Considering op: tt.store %14, %12 : tensor<512x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [2], order = [0]}>>
+[tritongpu-coalesce]: axis info of pointer: contiguity = [512], divisibility = [16], constancy = [1], constant_value = <none>
+[tritongpu-coalesce]: order=[0]
+[tritongpu-coalesce]: multi-root-slice: insert to memAccessesSameOrder %7 = tt.load %6 : tensor<512x!tt.ptr<f32>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [2], order = [0]}>>
+[tritongpu-coalesce]: multi-root-slice: insert to memAccessesSameOrder %10 = tt.load %9 : tensor<512x!tt.ptr<bf16>, #ttg.blocked<{sizePerThread = [1], threadsPerWarp = [32], warpsPerCTA = [2], order = [0]}>>
+[tritongpu-coalesce]: shapePerCTA=[512]
+[ttg-utility]: elemNumBytes: 4, divisibility: 16, contig: 512, maximum: 4, alignment: 4
+[tritongpu-coalesce]: perThread for op: 4
+[ttg-utility]: elemNumBytes: 4, divisibility: 16, contig: 512, maximum: 4, alignment: 4
+[tritongpu-coalesce]: perThread for opSameOrder: 4
+[ttg-utility]: elemNumBytes: 2, divisibility: 16, contig: 512, maximum: 8, alignment: 8
+[tritongpu-coalesce]: perThread for opSameOrder: 8
+[tritongpu-coalesce]: perThread: 8
+[ttg-utility]: elemNumBytes: 4, divisibility: 16, contig: 512, maximum: 4, alignment: 4
+nvdisasm warning : Disassembling Std Elf to Old format or Old Elf to Std format not supported yet, switching to Old format

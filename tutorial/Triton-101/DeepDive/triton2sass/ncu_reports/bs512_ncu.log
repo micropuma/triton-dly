@@ -1,0 +1,4 @@
+==PROF== Connected to process 3867487 (/opt/anaconda3/bin/python3.11)
+==PROF== Profiling "triton_kernel_add_bs512" - 0: 0%....50%....100% - 44 passes
+==PROF== Disconnected from process 3867487
+==PROF== Report: /mnt/home/douliyang/triton-workspace/triton-dly/tutorial/Triton-101/DeepDive/triton2sass/ncu_reports/bs512_full.ncu-rep
